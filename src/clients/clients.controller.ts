@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
@@ -16,9 +17,9 @@ export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 
   @Post('sign-up')
-  create(@Body() createClientDto: CreateClientDto) {
-    console.log(createClientDto);
-    return this.clientsService.create(createClientDto);
+  async create(@Body() createClientDto: CreateClientDto, @Res() res) {
+    const token = await this.clientsService.create(createClientDto);
+    res.json({ access_token: token });
   }
 
   @Get()

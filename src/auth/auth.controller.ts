@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 
@@ -23,9 +24,9 @@ export class AuthController {
   } */
 
   @Post('clients/signin')
-  clientSignIn(@Body() dto: ClientAuthDto): Promise<string> {
-    console.log(dto);
-    return this.authService.clientSignIn(dto);
+  async clientSignIn(@Body() dto: ClientAuthDto, @Res() res) {
+    const token = await this.authService.clientSignIn(dto);
+    res.json({ access_token: token });
   }
 
   // hna ta3 admin ...etc
