@@ -1,11 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
-
-export class AuthDto {
-  @IsNotEmpty()
-  @IsString()
-  email: string;
-
-  @IsNotEmpty()
-  @IsString()
+export class ClientAuthDto {
+  phone: string;
   password: string;
 }
+
+/* export class AdminAuthDto {
+  email: string;
+  password: string;
+} */

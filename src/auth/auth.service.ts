@@ -5,7 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon from 'argon2';
 import { PrismaService } from '../prisma/prisma.service';
 
-import { AuthDto } from './dto';
+import { ClientAuthDto } from './dto';
 import { JwtPayload, Tokens } from './types';
 
 @Injectable()
@@ -16,48 +16,36 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async signupLocal(dto: AuthDto): Promise<Tokens> {
-    const hash = await argon.hash(dto.password);
-
-    const user = await this.prisma.user
-      .create({
-        data: {
-          email: dto.email,
-          hash,
+  async clientSignIn(dto: ClientAuthDto): Promise<string> {
+    const client = await this.prisma.client
+      .findUnique({
+        where: {
+          phone: dto.phone,
         },
       })
-      .catch((error) => {
-        if (error.message.includes('Unique constraint failed')) {
-          throw new ForbiddenException(['Email already used']);
-        }
-        throw error;
+      .catch((err) => {
+        throw new ForbiddenException('Network error');
       });
+    console.log(client);
+    if (!client) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
-
-    return tokens;
-  }
-
-  async signinLocal(dto: AuthDto): Promise<Tokens> {
-    const user = await this.prisma.user.findUnique({
-      where: {
-        email: dto.email,
-      },
-    });
-
-    if (!user) throw new ForbiddenException('Access Denied');
-
-    const passwordMatches = await argon.verify(user.hash, dto.password);
+    const passwordMatches = await argon.verify(client.hash, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
-    const tokens = await this.getTokens(user.id, user.email);
-    await this.updateRtHash(user.id, tokens.refresh_token);
-
-    return tokens;
+    if (!client.isConfirmed) {
+      /* send sms */
+    }
+    const { hash, ...payload } = client;
+    return this.jwtService.sign(
+      { ...payload },
+      {
+        secret: this.config.get('AT_SECRET'),
+        expiresIn: '30d',
+      },
+    );
   }
 
-  async logout(userId: number): Promise<boolean> {
+  /* async logout(userId: number): Promise<boolean> {
     await this.prisma.user.updateMany({
       where: {
         id: userId,
@@ -70,9 +58,9 @@ export class AuthService {
       },
     });
     return true;
-  }
+  } */
 
-  async refreshTokens(userId: number, rt: string): Promise<Tokens> {
+  /*  async refreshTokens(userId: number, rt: string): Promise<Tokens> {
     const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
@@ -99,9 +87,9 @@ export class AuthService {
         hashedRt: hash,
       },
     });
-  }
+  } */
 
-  async getTokens(userId: number, email: string): Promise<Tokens> {
+  /* async getTokens(userId: number, email: string): Promise<Tokens> {
     const jwtPayload: JwtPayload = {
       sub: userId,
       email: email,
@@ -122,5 +110,5 @@ export class AuthService {
       access_token: at,
       refresh_token: rt,
     };
-  }
+  } */
 }

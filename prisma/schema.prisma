@@ -3,7 +3,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/client"
 }
 
 datasource db {
@@ -21,4 +20,20 @@ model User {
   hashedRt String?
 
   @@map("users")
+}
+
+model Client {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  phone       String  @unique
+  isConfirmed Boolean @default(false)
+  name        String
+  address     String?
+  city        String?
+  hash        String
+  hashedRt    String?
+
+  @@map("clients")
 }
