@@ -22,3 +22,32 @@ model User {
 
   @@map("users")
 }
+model Admin{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email String @unique
+  hash String
+  hashedRt String?
+}
+model Client{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  phoneNumber String @default("000-000-0000")
+  email String? @unique 
+  hash String
+  hashedRt String?
+  @@map("clients")
+}
+model livery_person{
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  phoneNumber String @default("000-000-0000")
+  email String? @unique 
+  hash String
+  hashedRt String?
+  @@map("livery_persons")
+}
+
