@@ -1,0 +1,13 @@
+name: Send GET Request
+on:
+  push:
+    branches:
+      - "master"
+  workflow_dispatch:
+
+jobs:
+  trigger-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send GET request
+      run: curl https://api.render.com/deploy/srv-cgcr12m4dad6fr6gnrc0?key=iDZpdKwPruU
