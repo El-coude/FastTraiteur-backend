@@ -23,18 +23,39 @@ model User {
   @@map("users")
 }
 
-model Client {
+model Admin {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  email     String   @unique
+  hash      String
+  hashedRt  String?
 
-  phone       String  @unique
-  isConfirmed Boolean @default(false)
+  @@map("admins")
+}
+
+model Client {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  phone       String   @unique @default("000-000-0000")
   name        String
-  address     String?
-  city        String?
+  isConfirmed Boolean  @default(false)
   hash        String
   hashedRt    String?
 
   @@map("clients")
+}
+
+model livery_person {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  phone     String   @unique @default("000-000-0000")
+  name      String
+  email     String?  @unique
+  hash      String
+  hashedRt  String?
+
+  @@map("livery_persons")
 }

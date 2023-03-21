@@ -1,10 +1,19 @@
-import { IsNotEmpty, IsString, IsPhoneNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsPhoneNumber,
+  IsEmail,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateClientDto {
-  @IsPhoneNumber()
   @IsNotEmpty()
   @IsString()
   phone: string;
+
+  @IsEmail()
+  @IsOptional()
+  email?: string;
 
   @IsNotEmpty()
   @IsString()
@@ -15,8 +24,10 @@ export class CreateClientDto {
   password: string;
 
   @IsString()
+  @IsOptional()
   address: string;
 
   @IsString()
+  @IsOptional()
   city: string;
 }
