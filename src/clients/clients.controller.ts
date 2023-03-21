@@ -24,7 +24,7 @@ export class ClientsController {
 
   @Get()
   findAll() {
-    return this.clientsService.findAll();
+    return 'Hello, clients';
   }
 
   @Get(':id')

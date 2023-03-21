@@ -26,5 +26,6 @@ services:
     restart: always
     environment:
       DATABASE_URL: postgresql://postgres-younes:123456789@db:5432/nestjs?schema=public
+      AT_SECRET: at-secret
   
 
