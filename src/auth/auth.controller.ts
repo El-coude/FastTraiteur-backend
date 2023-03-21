@@ -25,8 +25,8 @@ export class AuthController {
 
   @Post('clients/signin')
   async clientSignIn(@Body() dto: ClientAuthDto, @Res() res) {
-    const token = await this.authService.clientSignIn(dto);
-    res.json({ access_token: token });
+    const client = await this.authService.clientSignIn(dto);
+    res.json({ client });
   }
 
   // hna ta3 admin ...etc

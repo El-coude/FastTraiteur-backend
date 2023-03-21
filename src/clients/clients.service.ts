@@ -26,13 +26,15 @@ export class ClientsService {
       });
       /* sms verify */
 
-      return this.jwtService.sign(
-        { ...client },
-        {
+      const { hash, ...payload } = client;
+
+      return {
+        access_token: this.jwtService.sign(payload, {
           secret: this.config.get('AT_SECRET'),
           expiresIn: '30d',
-        },
-      );
+        }),
+        ...payload,
+      };
     } catch (error) {
       console.log(error);
       if (error.message.includes('Unique constraint failed')) {

@@ -16,7 +16,7 @@ export class AuthService {
     private config: ConfigService,
   ) {}
 
-  async clientSignIn(dto: ClientAuthDto): Promise<string> {
+  async clientSignIn(dto: ClientAuthDto) {
     const client = await this.prisma.client
       .findUnique({
         where: {
@@ -36,13 +36,13 @@ export class AuthService {
       /* send sms */
     }
     const { hash, ...payload } = client;
-    return this.jwtService.sign(
-      { ...payload },
-      {
+    return {
+      access_token: this.jwtService.sign(payload, {
         secret: this.config.get('AT_SECRET'),
         expiresIn: '30d',
-      },
-    );
+      }),
+      ...payload,
+    };
   }
 
   /* async logout(userId: number): Promise<boolean> {

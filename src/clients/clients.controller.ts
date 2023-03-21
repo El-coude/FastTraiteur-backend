@@ -18,8 +18,8 @@ export class ClientsController {
 
   @Post('sign-up')
   async create(@Body() createClientDto: CreateClientDto, @Res() res) {
-    const token = await this.clientsService.create(createClientDto);
-    res.json({ access_token: token });
+    const client = await this.clientsService.create(createClientDto);
+    res.json({ client });
   }
 
   @Get()
