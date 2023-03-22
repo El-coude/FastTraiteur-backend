@@ -111,7 +111,7 @@ export class AuthService {
     console.log(manager);
     if (!manager) throw new ForbiddenException('Access Denied');
 
-    const passwordMatches = await argon.verify(manager.hash, dto.password);
+    const passwordMatches = await argon.verify(manager.hash!, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
 
     // if (!manager.isConfirmed) {
