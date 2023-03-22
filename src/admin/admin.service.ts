@@ -24,14 +24,15 @@ export class AdminService {
         },
       });
       /* sms verify */
+      const { hash, ...payload } = admin;
 
-      return this.jwtService.sign(
-        { ...admin },
-        {
+      return {
+        access_token: this.jwtService.sign(payload, {
           secret: this.config.get('AT_SECRET'),
           expiresIn: '30d',
-        },
-      );
+        }),
+        ...payload,
+      };
     } catch (error) {
       console.log(error);
       if (error.message.includes('Unique constraint failed')) {

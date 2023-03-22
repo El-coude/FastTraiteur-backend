@@ -11,17 +11,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// model User {
+//   id        Int      @id @default(autoincrement())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  email    String  @unique
-  hash     String
-  hashedRt String?
+//   email    String  @unique
+//   hash     String
+//   hashedRt String?
 
-  @@map("users")
-}
+//   @@map("users")
+//}
 
 model Admin {
   id        Int      @id @default(autoincrement())
@@ -38,7 +38,7 @@ model Client {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  phone       String   @unique @default("000-000-0000")
+  phone       String   @unique 
   name        String
   isConfirmed Boolean  @default(false)
   hash        String
@@ -47,15 +47,25 @@ model Client {
   @@map("clients")
 }
 
-model livery_person {
+model DeliveryMan{
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  phone     String   @unique @default("000-000-0000")
+  phone     String   @unique 
   name      String
   email     String?  @unique
   hash      String
   hashedRt  String?
 
-  @@map("livery_persons")
+  @@map("deliverymen")
+}
+model Manager {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  hash      String
+  hashedRt  String?
+
+  @@map("managers")
 }
