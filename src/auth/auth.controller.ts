@@ -28,17 +28,16 @@ export class AuthController {
     const client = await this.authService.clientSignIn(dto);
     res.json({ client });
   }
-  @Post('admin/signin')
+  @Post('admins/signin')
   async adminSignIn(@Body() dto: AdminAuthDto, @Res() res) {
     const admin = await this.authService.adminSignIn(dto);
     res.json({ admin });
   }
-  @Post('admin/signin')
+  @Post('delivery/signin')
   async deliveryManSignIn(@Body() dto: DeliveryManAuthDto, @Res() res) {
     const deliveryman = await this.authService.deliveryManSignIn(dto);
     res.json({ deliveryman });
   }
-
 
   // hna ta3 admin ...etc
   /* @Public()

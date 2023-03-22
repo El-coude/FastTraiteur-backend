@@ -6,6 +6,10 @@ import { AtGuard } from './common/guards';
 import { PrismaModule } from './prisma/prisma.module';
 import { ClientsModule } from './clients/clients.module';
 import { SmsModule } from './sms/sms.module';
+import { AdminModule } from './admin/admin.module';
+import { DeliveryManModule } from './deliveryman/deliveryman.module';
+import { ManagerModule } from './manager/manager.module';
+import { MailingModule } from './mailing/mailing.module';
 
 @Module({
   imports: [
@@ -13,6 +17,10 @@ import { SmsModule } from './sms/sms.module';
     AuthModule,
     PrismaModule,
     ClientsModule,
+    AdminModule,
+    DeliveryManModule,
+    ManagerModule,
+    MailingModule,
     SmsModule,
   ],
   /* providers: [

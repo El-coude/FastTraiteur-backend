@@ -29,7 +29,6 @@ model Admin {
   updatedAt DateTime @updatedAt
   email     String   @unique
   hash      String
-  hashedRt  String?
 
   @@map("admins")
 }
@@ -38,34 +37,32 @@ model Client {
   id          Int      @id @default(autoincrement())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  phone       String   @unique 
+  phone       String   @unique
   name        String
   isConfirmed Boolean  @default(false)
   hash        String
-  hashedRt    String?
 
   @@map("clients")
 }
 
-model DeliveryMan{
+model DeliveryMan {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  phone     String   @unique 
-  name      String
-  email     String?  @unique
-  hash      String
-  hashedRt  String?
+  phone     String?  @unique
+  name      String?
+  email     String   @unique
+  hash      String?
 
-  @@map("deliverymen")
+  @@map("deliverymans")
 }
+
 model Manager {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   email     String   @unique
-  hash      String
-  hashedRt  String?
+  hash      String?
 
   @@map("managers")
 }

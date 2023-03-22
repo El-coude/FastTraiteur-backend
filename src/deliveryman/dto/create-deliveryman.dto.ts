@@ -1,26 +1,23 @@
-import { IsNotEmpty, IsString, IsPhoneNumber, IsEmail } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsPhoneNumber,
+  IsEmail,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateDeliveryManDto {
   @IsPhoneNumber()
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   phone: string;
 
   @IsEmail()
   @IsNotEmpty()
   @IsString()
-  email?: string;
+  email: string;
 
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   name: string;
-
-  @IsNotEmpty()
-  @IsString()
-  password: string;
-
-  @IsString()
-  address: string;
-
-
 }

@@ -1,7 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
-import { hash } from 'argon2';
+import { MailingService } from 'src/mailing/mailing.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
 import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
@@ -10,34 +8,41 @@ import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
 export class DeliverymanService {
   constructor(
     private prisma: PrismaService,
-    private jwtService: JwtService,
-    private config: ConfigService,
+    private mailService: MailingService,
   ) {}
 
   async create(createLiveryManDto: CreateDeliveryManDto) {
-    const hashedPass = await hash(createLiveryManDto.password);
+    /*  const hashedPass = await hash(createLiveryManDto.password); */
     try {
-      const dileveryman = await this.prisma.dileveryman.create({
+      const dileveryman = await this.prisma.deliveryMan.create({
         data: {
-          phone: createLiveryManDto.phone,
           name: createLiveryManDto.name,
-          hash: hashedPass,
+          email: createLiveryManDto.email,
+          phone: createLiveryManDto.phone,
         },
       });
-      /* sms verify */
-      const { hash, ...payload } = dileveryman;
+      await this.mailService.sendEmail(
+        createLiveryManDto.email,
+        'Your account has been created by FastTraiteur',
+        'Hello , FastTraiteur has created a delivery man account for you Download the app from this link , and sign-in using your email to complete setting up your profile',
+      );
 
+      const { hash, ...payload } = dileveryman;
       return {
-        access_token: this.jwtService.sign(payload, {
-          secret: this.config.get('AT_SECRET'),
-          expiresIn: '30d',
-        }),
+        success: true,
         ...payload,
       };
     } catch (error) {
       console.log(error);
       if (error.message.includes('Unique constraint failed')) {
-        throw new ForbiddenException(['phone already used']);
+        let errors: string[] = [];
+        if (error.message.includes('email')) {
+          errors.push('Email already used');
+        }
+        if (error.message.includes('phone')) {
+          errors.push('Phone number already used');
+        }
+        throw new ForbiddenException(errors);
       }
       throw error;
     }

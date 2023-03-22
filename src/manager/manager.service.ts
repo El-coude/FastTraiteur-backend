@@ -15,22 +15,23 @@ export class ManagerService {
   ) {}
 
   async create(createManagerDto: CreateManagerDto) {
-    const hashedPass = await hash(createManagerDto.password);
-    try {
+    /*  try {
       const manager = await this.prisma.manager.create({
         data: {
           email: createManagerDto.email,
-          hash: hashedPass,
+          name: createManagerDto.name,
+          restaurantId: createManagerDto.restaurantId,
         },
       });
-      /* sms verify */
       const { hash, ...payload } = manager;
+      await this.mailService.sendEmail(
+        createLiveryManDto.email,
+        'Your account has been created by FastTraiteur',
+        'Hello , FastTraiteur has created a delivery man account for you Download the app from this link , and sign-in using your email to complete setting up your profile',
+      );
 
       return {
-        access_token: this.jwtService.sign(payload, {
-          secret: this.config.get('AT_SECRET'),
-          expiresIn: '30d',
-        }),
+        success: true,
         ...payload,
       };
     } catch (error) {
@@ -39,7 +40,7 @@ export class ManagerService {
         throw new ForbiddenException(['email already used']);
       }
       throw error;
-    }
+    } */
   }
 
   findAll() {

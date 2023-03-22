@@ -1,32 +1,27 @@
 version: '3'
 services:
-  server:
-    build: .
+  db:
+    image: postgres:alpine3.17
     ports:
-      - "3333:3333"
-    volumes:
-      - .:/fast
-      - ./fast/node_modules
-    restart: always
+      - 5432:5432
     environment:
-      DATABASE_URL: postgresql://postgres:z2pBe4WhibcXFfRhpSG7@containers-us-west-147.railway.app:6651/railway
-      AT_SECRET: at-secret
+      POSTGRES_USER: postgres-younes
+      POSTGRES_PASSWORD: 123456789
+      POSTGRES_DB: nestjs
+   
+  #server:
+  #  build: .
+  #  ports:
+  #    - "3333:3333"
+  #  volumes:
+  #    - .:/fast
+  #    - ./fast/node_modules
+  #  restart: always
+  #  environment:
+  #    DATABASE_URL: postgresql://postgres:z2pBe4WhibcXFfRhpSG7@containers-us-west-147.railway.app:6651/railway
+  #    AT_SECRET: at-secret
+    ###########
+    #depends_on:
+    #  db:
+    #    condition: service_healthy
   
-
- # db:
- #   image: postgres:alpine3.17
- #   ports:
- #     - 5432:5432
- #   environment:
- #     POSTGRES_USER: postgres-younes
- #     POSTGRES_PASSWORD: 123456789
- #     POSTGRES_DB: nestjs
- #   healthcheck:
- #     test: [ "CMD", "pg_isready", "-q", "-d", "nestjs", "-U", "postgres-younes" ]
- #     interval: 3s
- #     timeout: 5s
- #     retries: 3
-  ###########
- #   depends_on:
- #     db:
- #       condition: service_healthy

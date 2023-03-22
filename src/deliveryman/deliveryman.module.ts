@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
-import { LiverymanController } from './deliveryman.controller';
-import { LiverymanService } from './deliveryman.service';
+import { JwtModule } from '@nestjs/jwt';
+import { MailingModule } from 'src/mailing/mailing.module';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { DeliveryManController } from './deliveryman.controller';
+import { DeliverymanService } from './deliveryman.service';
 
 @Module({
-  controllers: [LiverymanController],
-  providers: [LiverymanService],
+  imports: [JwtModule.register({}), PrismaService, MailingModule],
+  controllers: [DeliveryManController],
+  providers: [DeliverymanService],
 })
-export class LiverymanModule {}
+export class DeliveryManModule {}
