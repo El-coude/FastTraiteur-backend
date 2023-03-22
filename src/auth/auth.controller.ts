@@ -10,7 +10,7 @@ import {
 
 import { Public, GetCurrentUserId, GetCurrentUser } from '../common/decorators';
 import { AuthService } from './auth.service';
-import { ClientAuthDto } from './dto';
+import { AdminAuthDto, ClientAuthDto, DeliveryManAuthDto } from './dto';
 
 @Controller('auth')
 export class AuthController {
@@ -28,6 +28,17 @@ export class AuthController {
     const client = await this.authService.clientSignIn(dto);
     res.json({ client });
   }
+  @Post('admin/signin')
+  async adminSignIn(@Body() dto: AdminAuthDto, @Res() res) {
+    const admin = await this.authService.adminSignIn(dto);
+    res.json({ admin });
+  }
+  @Post('admin/signin')
+  async deliveryManSignIn(@Body() dto: DeliveryManAuthDto, @Res() res) {
+    const deliveryman = await this.authService.deliveryManSignIn(dto);
+    res.json({ deliveryman });
+  }
+
 
   // hna ta3 admin ...etc
   /* @Public()

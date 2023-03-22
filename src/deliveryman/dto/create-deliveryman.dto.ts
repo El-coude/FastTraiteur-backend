@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsString, IsPhoneNumber, IsEmail } from 'class-validator';
 
-export class CreateLiveryManDto {
+export class CreateDeliveryManDto {
   @IsPhoneNumber()
   @IsNotEmpty()
   @IsString()

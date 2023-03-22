@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LiverymanController } from './liveryman.controller';
-import { LiverymanService } from './liveryman.service';
+import { LiverymanController } from './deliveryman.controller';
+import { LiverymanService } from './deliveryman.service';
 
 @Module({
   controllers: [LiverymanController],

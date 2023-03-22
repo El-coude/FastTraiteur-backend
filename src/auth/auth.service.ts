@@ -5,7 +5,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import * as argon from 'argon2';
 import { PrismaService } from '../prisma/prisma.service';
 
-import { ClientAuthDto } from './dto';
+import { AdminAuthDto, ClientAuthDto, ManagerAuthDto } from './dto';
 import { JwtPayload, Tokens } from './types';
 
 @Injectable()
@@ -44,6 +44,93 @@ export class AuthService {
       ...payload,
     };
   }
+  async adminSignIn(dto: AdminAuthDto) {
+    const admin = await this.prisma.admin
+      .findUnique({
+        where: {
+          email: dto.email,
+        },
+      })
+      .catch((err) => {
+        throw new ForbiddenException('Network error');
+      });
+    console.log(admin);
+    if (!admin) throw new ForbiddenException('Access Denied');
+
+    const passwordMatches = await argon.verify(admin.hash, dto.password);
+    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+
+    // if (!admin.isConfirmed) {
+    //   /* send sms */
+    // }
+    const { hash, ...payload } = admin;
+    return {
+      access_token: this.jwtService.sign(payload, {
+        secret: this.config.get('AT_SECRET'),
+        expiresIn: '30d',
+      }),
+      ...payload,
+    };
+  }
+  async deliveryManSignIn(dto: ClientAuthDto) {
+    const deliveryman = await this.prisma.deliveryman
+      .findUnique({
+        where: {
+          phone: dto.phone,
+        },
+      })
+      .catch((err) => {
+        throw new ForbiddenException('Network error');
+      });
+    console.log(deliveryman);
+    if (!deliveryman) throw new ForbiddenException('Access Denied');
+
+    const passwordMatches = await argon.verify(deliveryman.hash, dto.password);
+    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+
+    if (!deliveryman.isConfirmed) {
+      /* send sms */
+    }
+    const { hash, ...payload } = deliveryman;
+    return {
+      access_token: this.jwtService.sign(payload, {
+        secret: this.config.get('AT_SECRET'),
+        expiresIn: '30d',
+      }),
+      ...payload,
+    };
+  }
+  async managerSignIn(dto: ManagerAuthDto) {
+    const manager = await this.prisma.manager
+      .findUnique({
+        where: {
+          email: dto.email,
+        },
+      })
+      .catch((err) => {
+        throw new ForbiddenException('Network error');
+      });
+    console.log(manager);
+    if (!manager) throw new ForbiddenException('Access Denied');
+
+    const passwordMatches = await argon.verify(manager.hash, dto.password);
+    if (!passwordMatches) throw new ForbiddenException('Access Denied');
+
+    // if (!manager.isConfirmed) {
+    //   /* send sms */
+    // }
+    const { hash, ...payload } = manager;
+    return {
+      access_token: this.jwtService.sign(payload, {
+        secret: this.config.get('AT_SECRET'),
+        expiresIn: '30d',
+      }),
+      ...payload,
+    };
+  }
+
+
+
 
   /* async logout(userId: number): Promise<boolean> {
     await this.prisma.user.updateMany({

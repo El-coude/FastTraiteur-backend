@@ -3,21 +3,21 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateLiveryManDto } from './dto/create-liveryman.dto';
-import { UpdateLiveryManDto } from './dto/update-liveryman.dto';
+import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
+import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
 
 @Injectable()
-export class LiverymanService {
+export class DeliverymanService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
   ) {}
 
-  async create(createLiveryManDto: CreateLiveryManDto) {
+  async create(createLiveryManDto: CreateDeliveryManDto) {
     const hashedPass = await hash(createLiveryManDto.password);
     try {
-      const admin = await this.prisma.livery_person.create({
+      const dileveryman = await this.prisma.dileveryman.create({
         data: {
           phone: createLiveryManDto.phone,
           name: createLiveryManDto.name,
@@ -25,14 +25,15 @@ export class LiverymanService {
         },
       });
       /* sms verify */
+      const { hash, ...payload } = dileveryman;
 
-      return this.jwtService.sign(
-        { ...admin },
-        {
+      return {
+        access_token: this.jwtService.sign(payload, {
           secret: this.config.get('AT_SECRET'),
           expiresIn: '30d',
-        },
-      );
+        }),
+        ...payload,
+      };
     } catch (error) {
       console.log(error);
       if (error.message.includes('Unique constraint failed')) {
@@ -43,18 +44,18 @@ export class LiverymanService {
   }
 
   findAll() {
-    return `This action returns all livery men`;
+    return `This action returns all delivery men`;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} livery man`;
+    return `This action returns a #${id} delivery man`;
   }
 
-  update(id: number, UpdateLiveryManDto: UpdateLiveryManDto) {
-    return `This action updates a #${id} livery man`;
+  update(id: number, UpdateDeliveryManDto: UpdateDeliveryManDto) {
+    return `This action updates a #${id} delivery man`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} livery man`;
+    return `This action removes a #${id} delivery man`;
   }
 }

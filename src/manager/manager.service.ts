@@ -3,28 +3,28 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
+import { CreateManagerDto } from './dto/create-manager.dto';
+import { UpdateManagerDto } from './dto/update-manager.dto';
 
 @Injectable()
-export class AdminService {
+export class ManagerService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
   ) {}
 
-  async create(createAdminDto: CreateAdminDto) {
-    const hashedPass = await hash(createAdminDto.password);
+  async create(createManagerDto: CreateManagerDto) {
+    const hashedPass = await hash(createManagerDto.password);
     try {
-      const admin = await this.prisma.admin.create({
+      const manager = await this.prisma.manager.create({
         data: {
-          email: createAdminDto.email,
+          email: createManagerDto.email,
           hash: hashedPass,
         },
       });
       /* sms verify */
-      const { hash, ...payload } = admin;
+      const { hash, ...payload } = manager;
 
       return {
         access_token: this.jwtService.sign(payload, {
@@ -43,18 +43,18 @@ export class AdminService {
   }
 
   findAll() {
-    return `This action returns all admins`;
+    return `This action returns all mangers`;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id}  admin`;
+    return `This action returns a #${id}  manger`;
   }
 
-  update(id: number, updateAdminDto: UpdateAdminDto) {
-    return `This action updates a #${id} admin`;
+  update(id: number, updateManagerDto: UpdateManagerDto) {
+    return `This action updates a #${id} manger`;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} admin`;
+    return `This action removes a #${id} manager`;
   }
 }
