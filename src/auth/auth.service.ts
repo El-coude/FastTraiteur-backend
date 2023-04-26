@@ -26,15 +26,11 @@ export class AuthService {
       .catch((err) => {
         throw new ForbiddenException('Network error');
       });
-    console.log(client);
     if (!client) throw new ForbiddenException('Access Denied');
-
-    const passwordMatches = await argon.verify(client.hash, dto.password);
+    const passwordMatches = await argon
+      .verify(client.hash, dto.password)
+      .catch((err) => console.log(err));
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
-
-    if (!client.isConfirmed) {
-      /* send sms */
-    }
     const { hash, ...payload } = client;
     return {
       access_token: this.jwtService.sign(payload, {
@@ -54,7 +50,6 @@ export class AuthService {
       .catch((err) => {
         throw new ForbiddenException('Network error');
       });
-    console.log(admin);
     if (!admin) throw new ForbiddenException('Access Denied');
 
     const passwordMatches = await argon.verify(admin.hash, dto.password);
@@ -83,7 +78,6 @@ export class AuthService {
       .catch((err) => {
         throw new ForbiddenException('Network error');
       });
-    console.log(deliveryman);
     if (!deliveryman) throw new ForbiddenException('Access Denied');
 
     const passwordMatches = await argon.verify(deliveryman.hash!, dto.password);
@@ -108,7 +102,6 @@ export class AuthService {
       .catch((err) => {
         throw new ForbiddenException('Network error');
       });
-    console.log(manager);
     if (!manager) throw new ForbiddenException('Access Denied');
 
     const passwordMatches = await argon.verify(manager.hash!, dto.password);

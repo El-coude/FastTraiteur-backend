@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SmsService } from 'src/sms/sms.service';
 import { CreateClientDto } from './dto/create-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
@@ -12,6 +13,7 @@ export class ClientsService {
     private prisma: PrismaService,
     private jwtService: JwtService,
     private config: ConfigService,
+    private sms: SmsService,
   ) {}
 
   async create(createClientDto: CreateClientDto) {
@@ -25,7 +27,6 @@ export class ClientsService {
         },
       });
       /* sms verify */
-
       const { hash, ...payload } = client;
 
       return {

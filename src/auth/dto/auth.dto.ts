@@ -1,16 +1,19 @@
-export class ClientAuthDto {
-  phone: string;
+import { IsNotEmpty } from 'class-validator';
+
+class AuthDto {
+  @IsNotEmpty()
   password: string;
 }
-export class AdminAuthDto {
-  email: string;
-  password: string;
-} 
-export class DeliveryManAuthDto {
+
+export class ClientAuthDto extends AuthDto {
   phone: string;
-  password: string;
 }
-export class ManagerAuthDto {
+export class AdminAuthDto extends AuthDto {
   email: string;
-  password: string ;
+}
+export class DeliveryManAuthDto extends AuthDto {
+  phone: string;
+}
+export class ManagerAuthDto extends AuthDto {
+  email: string;
 }

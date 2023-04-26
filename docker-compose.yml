@@ -27,7 +27,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      DATABASE_URL: "postgresql://postgres-younes:123456789@localhost:5432/nestjs?schema=public"
+      DATABASE_URL: "postgresql://postgres-younes:123456789@db:5432/nestjs?schema=public"
       AT_SECRET: at-secret
       NODEMAILER_USER: mr.chakerw@gmail.com
       NODEMAILER_PASS: evuavpohfrbmcdgk
