@@ -29,7 +29,7 @@ model Admin {
   updatedAt DateTime @updatedAt
   email     String   @unique
   hash      String
-
+  role String @default("admin")
   @@map("admins")
 }
 
@@ -41,7 +41,7 @@ model Client {
   name        String
   isConfirmed Boolean  @default(false)
   hash        String
-
+  role String @default("client")
   @@map("clients")
 }
 
@@ -53,8 +53,15 @@ model DeliveryMan {
   name      String?
   email     String   @unique
   hash      String?
-
+  role  String @default("deliveryman")
   @@map("deliverymans")
+}
+model Restaurant {
+  id Int @id @default(autoincrement())
+  name String 
+  city String 
+  address String
+
 }
 
 model Manager {
@@ -63,6 +70,8 @@ model Manager {
   updatedAt DateTime @updatedAt
   email     String   @unique
   hash      String?
-
+  name      String 
+  restaurantId Int
+  role String @default("manager")
   @@map("managers")
 }
