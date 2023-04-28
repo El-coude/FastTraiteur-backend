@@ -26,7 +26,7 @@ export class JwtAuthGuard implements CanActivate {
         secret: this.configService.get('AT_SECRET'),
       });
       if (payload['role'] !== 'admin') {
-        return false;
+        throw new UnauthorizedException();
       }
     } catch (error) {
       console.log('Error: ', error);

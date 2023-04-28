@@ -65,7 +65,6 @@ export class AuthService {
         secret: this.config.get('AT_SECRET'),
         expiresIn: '30d',
       }),
-      admin: true,
       ...payload,
     };
   }
