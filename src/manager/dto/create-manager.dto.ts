@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  isNumber,
+} from 'class-validator';
 
 export class CreateManagerDto {
   @IsEmail()
@@ -6,9 +13,9 @@ export class CreateManagerDto {
   @IsString()
   email: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  restaurantId: string;
+  restaurantId: number;
 
   @IsString()
   @IsOptional()

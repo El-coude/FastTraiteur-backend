@@ -7,15 +7,17 @@ import {
   Param,
   Delete,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ManagerService } from './manager.service';
 import { CreateManagerDto } from './dto/create-manager.dto';
 import { UpdateManagerDto } from './dto/update-manager.dto';
-
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('manager')
 export class ManagerController {
   constructor(private readonly managerService: ManagerService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() createManagerDto: CreateManagerDto, @Res() res) {
     const manager = await this.managerService.create(createManagerDto);

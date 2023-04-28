@@ -31,6 +31,7 @@ export class AdminService {
           secret: this.config.get('AT_SECRET'),
           expiresIn: '30d',
         }),
+
         ...payload,
       };
     } catch (error) {

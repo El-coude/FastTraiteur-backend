@@ -59,11 +59,13 @@ export class AuthService {
     //   /* send sms */
     // }
     const { hash, ...payload } = admin;
+
     return {
       access_token: this.jwtService.sign(payload, {
         secret: this.config.get('AT_SECRET'),
         expiresIn: '30d',
       }),
+      admin: true,
       ...payload,
     };
   }
