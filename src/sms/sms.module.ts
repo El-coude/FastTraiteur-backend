@@ -8,5 +8,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
   providers: [SmsService],
   controllers: [SmsController],
   imports: [JwtModule.register({}), PrismaService],
+  exports: [SmsService],
 })
 export class SmsModule {}
