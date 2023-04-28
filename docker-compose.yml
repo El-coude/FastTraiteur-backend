@@ -10,8 +10,4 @@ services:
       - .:/fast
       - ./fast/node_modules
     restart: always
-    environment:
-      DATABASE_URL: "postgresql://postgres:z2pBe4WhibcXFfRhpSG7@containers-us-west-147.railway.app:6651/railway"
-      AT_SECRET: at-secret
-      NODEMAILER_USER: mr.chakerw@gmail.com
-      NODEMAILER_PASS: evuavpohfrbmcdgk
+    
