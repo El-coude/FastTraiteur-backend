@@ -43,19 +43,36 @@ export class ManagerService {
     }
   }
 
-  findAll() {
-    return `This action returns all mangers`;
+  async findAll() {
+    return await this.prisma.manager.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id}  manger`;
+  async findOne(id: number) {
+    return await this.prisma.manager.findUnique({
+      where: {
+        id: id,
+      },
+    });
   }
 
-  update(id: number, updateManagerDto: UpdateManagerDto) {
-    return `This action updates a #${id} manger`;
+  async update(id: number, updateManagerDto: UpdateManagerDto) {
+    const user = await this.prisma.manager.update({
+      where: {
+        id: id,
+      },
+      data: {
+        ...updateManagerDto,
+      },
+    });
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} manager`;
+  async remove(id: number) {
+    return await this.prisma.manager.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

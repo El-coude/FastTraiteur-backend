@@ -24,21 +24,25 @@ export class ManagerController {
     res.json({ manager });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
-    return 'Hello, mangers';
+    return this.managerService.findAll();
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.managerService.findOne(+id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateManagerDto: UpdateManagerDto) {
     return this.managerService.update(+id, updateManagerDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.managerService.remove(+id);

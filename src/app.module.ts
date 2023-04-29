@@ -10,6 +10,7 @@ import { AdminModule } from './admin/admin.module';
 import { DeliveryManModule } from './deliveryman/deliveryman.module';
 import { ManagerModule } from './manager/manager.module';
 import { MailingModule } from './mailing/mailing.module';
+import { RestaurantModule } from './restaurant/restaurant.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { MailingModule } from './mailing/mailing.module';
     ManagerModule,
     MailingModule,
     SmsModule,
+    RestaurantModule,
   ],
   /* providers: [
     {
