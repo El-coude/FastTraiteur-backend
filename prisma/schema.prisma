@@ -29,7 +29,8 @@ model Admin {
   updatedAt DateTime @updatedAt
   email     String   @unique
   hash      String
-  role String @default("admin")
+  role      String   @default("admin")
+
   @@map("admins")
 }
 
@@ -39,9 +40,13 @@ model Client {
   updatedAt   DateTime @updatedAt
   phone       String   @unique
   name        String
+  address     String?
+  city        String?
+  imageUrl    String?
   isConfirmed Boolean  @default(false)
   hash        String
-  role String @default("client")
+  role        String   @default("client")
+
   @@map("clients")
 }
 
@@ -53,25 +58,27 @@ model DeliveryMan {
   name      String?
   email     String   @unique
   hash      String?
-  role  String @default("deliveryman")
+  role      String   @default("deliveryman")
+
   @@map("deliverymans")
 }
-model Restaurant {
-  id Int @id @default(autoincrement())
-  name String 
-  city String 
-  address String
 
+model Restaurant {
+  id      Int    @id @default(autoincrement())
+  name    String
+  city    String
+  address String
 }
 
 model Manager {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  email     String   @unique
-  hash      String?
-  name      String 
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  email        String   @unique
+  hash         String?
+  name         String
   restaurantId Int
-  role String @default("manager")
+  role         String   @default("manager")
+
   @@map("managers")
 }

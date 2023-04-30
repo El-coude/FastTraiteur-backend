@@ -30,4 +30,8 @@ export class CreateClientDto {
   @IsString()
   @IsOptional()
   city: string;
+
+  @IsString()
+  @IsOptional()
+  imageUrl: string;
 }
