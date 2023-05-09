@@ -11,6 +11,8 @@ import { DeliveryManModule } from './deliveryman/deliveryman.module';
 import { ManagerModule } from './manager/manager.module';
 import { MailingModule } from './mailing/mailing.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { MealsModule } from './meals/meals.module';
+import { S3Module } from './s3/s3.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     MailingModule,
     SmsModule,
     RestaurantModule,
+    MealsModule,
+    S3Module,
   ],
   /* providers: [
     {

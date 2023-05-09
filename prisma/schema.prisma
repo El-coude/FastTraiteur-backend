@@ -82,3 +82,15 @@ model Manager {
 
   @@map("managers")
 }
+
+model Meal {
+  id Int @id @default(autoincrement())
+  name String 
+  price String 
+  description String
+  categoryId Int?
+  imageUrl String? @default("")
+  type String? @default("") // general OR specific
+
+  @@map("meals")
+}
