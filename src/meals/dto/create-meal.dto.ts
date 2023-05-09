@@ -17,5 +17,5 @@ export class CreateMealDto {
   categoryId: number;
 
   @IsOptional()
-  imageData: string;
+  images: Array<string>;
 }

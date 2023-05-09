@@ -22,7 +22,7 @@ export class MealsController {
     private configService: ConfigService,
   ) {}
 
-  @UseGuards(ManagerAdminGuard)
+  //@UseGuards(ManagerAdminGuard)
   @Post('create')
   async create(@Body() createMealDto: CreateMealDto, @Res() res) {
     const meal = await this.mealsService.create(createMealDto);

@@ -1,15 +1,16 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
-import { Config } from 'twilio/lib/twiml/VoiceResponse';
+import { CreateMealImageDto } from './dto/create-image.dto';
+import { saveImage } from '../utils/aws';
 
 @Injectable()
 export class MealsService {
   constructor(
     private prismaService: PrismaService,
-    private configService: Config,
+    private configService: ConfigService,
   ) {}
 
   async create(createMealDto: CreateMealDto) {
@@ -23,7 +24,24 @@ export class MealsService {
         },
       });
 
-      const payload = meal;
+      let payload = meal;
+      let imagesUrl: Array<string> = [];
+      if (createMealDto?.images?.length > 0) {
+        for (let i = 0; i < createMealDto?.images?.length; i++) {
+          const imageUrl = (await saveImage(
+            createMealDto?.images[0],
+            payload?.id,
+          )) as string;
+          imagesUrl.push(imageUrl);
+          await this.prismaService.mealImage.create({
+            data: {
+              url: imageUrl,
+              mealId: payload?.id,
+            },
+          });
+        }
+      }
+      payload['images'] = imagesUrl;
       return {
         success: true,
         ...payload,

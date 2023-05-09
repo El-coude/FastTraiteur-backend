@@ -89,8 +89,14 @@ model Meal {
   price String 
   description String
   categoryId Int?
-  imageUrl String? @default("")
   type String? @default("") // general OR specific
 
   @@map("meals")
+}
+
+model MealImage {
+  id Int @id @default(autoincrement())
+  url String
+  mealId Int
+  @@map("mealimages")
 }
