@@ -33,7 +33,13 @@ export class RestaurantService {
   }
 
   async findAll() {
-    return await this.prisma.restaurant.findMany();
+    const res = await this.prisma.restaurant.findMany({
+      include: {
+        manager: true,
+      },
+    });
+
+    return res;
   }
 
   async findOne(id: number) {

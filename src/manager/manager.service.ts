@@ -21,7 +21,6 @@ export class ManagerService {
         data: {
           email: createManagerDto.email,
           name: createManagerDto.name,
-          restaurantId: createManagerDto.restaurantId,
         },
       });
       const { hash, ...payload } = manager;
