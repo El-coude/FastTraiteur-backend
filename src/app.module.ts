@@ -11,6 +11,7 @@ import { DeliveryManModule } from './deliveryman/deliveryman.module';
 import { ManagerModule } from './manager/manager.module';
 import { MailingModule } from './mailing/mailing.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
+import { MealsModule } from './meals/meals.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { RestaurantModule } from './restaurant/restaurant.module';
     MailingModule,
     SmsModule,
     RestaurantModule,
+    MealsModule,
   ],
   /* providers: [
     {
