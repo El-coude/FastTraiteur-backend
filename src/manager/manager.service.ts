@@ -23,12 +23,20 @@ export class ManagerService {
           name: createManagerDto.name,
         },
       });
+      await this.prisma.restaurant.update({
+        where: { id: createManagerDto.restaurantId },
+        data: {
+          managerId: manager.id,
+        },
+      });
+
       const { hash, ...payload } = manager;
       await this.mailService.sendEmail(
         createManagerDto.email,
         'Your account has been created by FastTraiteur',
         'Hello , FastTraiteur has created a delivery man account for you Download the app from this link , and sign-in using your email to complete setting up your profile',
       );
+
       return {
         success: true,
         ...payload,

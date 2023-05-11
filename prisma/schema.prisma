@@ -87,19 +87,20 @@ model Manager {
 }
 
 model Meal {
-  id Int @id @default(autoincrement())
-  name String 
-  price String 
+  id          Int     @id @default(autoincrement())
+  name        String
+  price       String
   description String
-  categoryId Int?
-  type String? @default("") // general OR specific
+  categoryId  Int?
+  type        String? @default("") // general OR specific
 
   @@map("meals")
 }
 
 model MealImage {
-  id Int @id @default(autoincrement())
-  url String
+  id     Int    @id @default(autoincrement())
+  url    String
   mealId Int
+
   @@map("mealimages")
 }
