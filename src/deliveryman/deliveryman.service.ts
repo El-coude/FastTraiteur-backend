@@ -19,6 +19,7 @@ export class DeliverymanService {
           name: createLiveryManDto.name,
           email: createLiveryManDto.email,
           phone: createLiveryManDto.phone,
+          restaurantId: createLiveryManDto.restaurantId,
         },
       });
       await this.mailService.sendEmail(
@@ -48,8 +49,8 @@ export class DeliverymanService {
     }
   }
 
-  findAll() {
-    return `This action returns all delivery men`;
+  async findAll() {
+    return await this.prisma.deliveryMan.findMany();
   }
 
   findOne(id: number) {
@@ -60,7 +61,12 @@ export class DeliverymanService {
     return `This action updates a #${id} delivery man`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
+    await this.prisma.deliveryMan.delete({
+      where: {
+        id,
+      },
+    });
     return `This action removes a #${id} delivery man`;
   }
 }

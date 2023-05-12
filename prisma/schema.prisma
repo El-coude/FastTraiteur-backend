@@ -51,25 +51,29 @@ model Client {
 }
 
 model DeliveryMan {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  phone     String?  @unique
-  name      String?
-  email     String   @unique
-  hash      String?
-  role      String   @default("deliveryman")
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  phone        String?    @unique
+  name         String?
+  email        String     @unique
+  hash         String?
+  restaurantId Int        @unique
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+
+  role String @default("deliveryman")
 
   @@map("deliverymans")
 }
 
 model Restaurant {
-  id        Int      @id @default(autoincrement())
-  name      String
-  city      String
-  address   String
-  managerId Int?     @unique
-  manager   Manager? @relation(fields: [managerId], references: [id])
+  id          Int          @id @default(autoincrement())
+  name        String
+  city        String
+  address     String
+  managerId   Int?         @unique
+  manager     Manager?     @relation(fields: [managerId], references: [id])
+  DeliveryMan DeliveryMan?
 }
 
 model Manager {

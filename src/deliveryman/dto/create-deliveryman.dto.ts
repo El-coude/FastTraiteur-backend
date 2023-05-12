@@ -4,6 +4,7 @@ import {
   IsPhoneNumber,
   IsEmail,
   IsOptional,
+  IsNumber,
 } from 'class-validator';
 
 export class CreateDeliveryManDto {
@@ -20,4 +21,8 @@ export class CreateDeliveryManDto {
   @IsString()
   @IsOptional()
   name: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  restaurantId: number;
 }
