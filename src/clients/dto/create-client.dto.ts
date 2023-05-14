@@ -4,6 +4,7 @@ import {
   IsPhoneNumber,
   IsEmail,
   IsOptional,
+  IsNumber,
 } from 'class-validator';
 
 export class CreateClientDto {
@@ -27,9 +28,13 @@ export class CreateClientDto {
   @IsOptional()
   address: string;
 
-  @IsString()
-  @IsOptional()
-  city: string;
+  @IsNotEmpty()
+  @IsNumber()
+  longtitud: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  latitud: number;
 
   @IsString()
   @IsOptional()

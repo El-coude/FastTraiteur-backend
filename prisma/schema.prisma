@@ -40,8 +40,9 @@ model Client {
   updatedAt   DateTime @updatedAt
   phone       String   @unique
   name        String
+  longtitud   Float?
+  latitud     Float?
   address     String?
-  city        String?
   imageUrl    String?
   isConfirmed Boolean  @default(false)
   hash        String
@@ -69,7 +70,8 @@ model DeliveryMan {
 model Restaurant {
   id          Int          @id @default(autoincrement())
   name        String
-  city        String
+  longtitud   Float
+  latitud     Float
   address     String
   managerId   Int?         @unique
   manager     Manager?     @relation(fields: [managerId], references: [id])
