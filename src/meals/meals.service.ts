@@ -20,7 +20,6 @@ export class MealsService {
           name: createMealDto.name,
           price: createMealDto.price,
           description: createMealDto.description,
-          categoryId: createMealDto.categoryId,
         },
       });
 
@@ -42,6 +41,16 @@ export class MealsService {
         }
       }
       payload['images'] = imagesUrl;
+      if (createMealDto?.categoryIds?.length > 0) {
+        for (let i = 0; i < createMealDto?.categoryIds?.length; i++) {
+          const instance = await this.prismaService.categoriesOnMeals.create({
+            data: {
+              mealId: payload?.id,
+              categoryId: createMealDto.categoryIds[i],
+            },
+          });
+        }
+      }
       return {
         success: true,
         ...payload,
