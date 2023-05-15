@@ -93,12 +93,12 @@ model Manager {
 }
 
 model Meal {
-  id          Int     @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   name        String
   price       String
   description String
-  categoryId  Int?
-  type        String? @default("") // general OR specific
+  type        String?             @default("") // general OR specific
+  categories  CategoriesOnMeals[]
 
   @@map("meals")
 }
@@ -109,4 +109,22 @@ model MealImage {
   mealId Int
 
   @@map("mealimages")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  meals CategoriesOnMeals[]
+
+  @@map("categories")
+}
+
+model CategoriesOnMeals {
+  meal       Meal     @relation(fields: [mealId], references: [id])
+  mealId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@id([mealId, categoryId])
 }

@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
-import { AtGuard } from './common/guards';
 import { PrismaModule } from './prisma/prisma.module';
 import { ClientsModule } from './clients/clients.module';
 import { SmsModule } from './sms/sms.module';
@@ -12,6 +10,7 @@ import { ManagerModule } from './manager/manager.module';
 import { MailingModule } from './mailing/mailing.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { MealsModule } from './meals/meals.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -26,6 +25,7 @@ import { MealsModule } from './meals/meals.module';
     SmsModule,
     RestaurantModule,
     MealsModule,
+    CategoryModule,
   ],
   /* providers: [
     {

@@ -29,7 +29,7 @@ export class MealsController {
     res.json(meal);
   }
 
-  @UseGuards(ManagerAdminGuard)
+  //@UseGuards(ManagerAdminGuard)
   @Get()
   findAll() {
     return this.mealsService.findAll();
