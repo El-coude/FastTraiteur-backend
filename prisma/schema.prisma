@@ -70,8 +70,8 @@ model DeliveryMan {
 model Restaurant {
   id          Int          @id @default(autoincrement())
   name        String
-  longtitud   Float
-  latitud     Float
+  longtitud   Float        @default(0)
+  latitud     Float        @default(0)
   address     String
   managerId   Int?         @unique
   manager     Manager?     @relation(fields: [managerId], references: [id])
