@@ -13,6 +13,7 @@ export class DeliverymanService {
 
   async create(createLiveryManDto: CreateDeliveryManDto) {
     /*  const hashedPass = await hash(createLiveryManDto.password); */
+    console.log(createLiveryManDto.restaurantId);
     try {
       const dileveryman = await this.prisma.deliveryMan.create({
         data: {
@@ -50,15 +51,27 @@ export class DeliverymanService {
   }
 
   async findAll() {
-    return await this.prisma.deliveryMan.findMany();
+    return await this.prisma.deliveryMan.findMany({
+      include: {
+        restaurant: true,
+      },
+    });
   }
 
   findOne(id: number) {
     return `This action returns a #${id} delivery man`;
   }
 
-  update(id: number, UpdateDeliveryManDto: UpdateDeliveryManDto) {
-    return `This action updates a #${id} delivery man`;
+  async update(id: number, dto: UpdateDeliveryManDto) {
+    const d = await this.prisma.deliveryMan.update({
+      where: {
+        id,
+      },
+      data: {
+        ...dto,
+      },
+    });
+    return d;
   }
 
   async remove(id: number) {

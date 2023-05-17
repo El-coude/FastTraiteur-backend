@@ -8,6 +8,7 @@ import {
 export class UpdateDeliveryManDto {
   @IsPhoneNumber()
   @IsNotEmpty()
+  @IsOptional()
   phone: string;
 
   @IsEmail()
@@ -18,5 +19,5 @@ export class UpdateDeliveryManDto {
   name: string;
 
   @IsOptional()
-  address?: string;
+  restaurantId: number;
 }

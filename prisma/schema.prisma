@@ -59,7 +59,7 @@ model DeliveryMan {
   name         String?
   email        String     @unique
   hash         String?
-  restaurantId Int        @unique
+  restaurantId Int
   restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
 
   role String @default("deliveryman")
@@ -68,14 +68,14 @@ model DeliveryMan {
 }
 
 model Restaurant {
-  id          Int          @id @default(autoincrement())
+  id          Int           @id @default(autoincrement())
   name        String
-  longtitud   Float        @default(0)
-  latitud     Float        @default(0)
+  longtitud   Float         @default(0)
+  latitud     Float         @default(0)
   address     String
-  managerId   Int?         @unique
-  manager     Manager?     @relation(fields: [managerId], references: [id])
-  DeliveryMan DeliveryMan?
+  managerId   Int?          @unique
+  manager     Manager?      @relation(fields: [managerId], references: [id])
+  DeliveryMen DeliveryMan[]
 }
 
 model Manager {

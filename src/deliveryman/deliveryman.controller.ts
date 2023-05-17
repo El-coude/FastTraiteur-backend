@@ -26,7 +26,7 @@ export class DeliveryManController {
 
   @Get()
   findAll() {
-    return 'Hello, deliverymen';
+    return this.deliverymanService.findAll();
   }
 
   @Get(':id')
