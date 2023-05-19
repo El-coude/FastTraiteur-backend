@@ -62,7 +62,16 @@ export class MealsService {
   }
 
   async findAll() {
-    return await this.prismaService.meal.findMany();
+    const meals = await this.prismaService.meal.findMany();
+    for (let i = 0; i < meals.length; i++) {
+      const images = await this.prismaService.mealImage.findMany({
+        where: {
+          mealId: meals[i].id,
+        },
+      });
+      meals[i]['images'] = images.map((img) => img.url);
+    }
+    return meals;
   }
 
   async findOne(id: number) {

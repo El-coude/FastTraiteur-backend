@@ -6,7 +6,6 @@ export class CreateMealDto {
   name: string;
 
   @IsNotEmpty()
-  @IsString()
   price: string;
 
   @IsNotEmpty()

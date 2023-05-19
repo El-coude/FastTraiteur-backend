@@ -99,6 +99,7 @@ model Meal {
   description String
   type        String?             @default("") // general OR specific
   categories  CategoriesOnMeals[]
+  MealImage   MealImage[]
 
   @@map("meals")
 }
@@ -107,6 +108,7 @@ model MealImage {
   id     Int    @id @default(autoincrement())
   url    String
   mealId Int
+  Meal   Meal   @relation(fields: [mealId], references: [id])
 
   @@map("mealimages")
 }
