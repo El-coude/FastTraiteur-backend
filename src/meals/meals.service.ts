@@ -84,6 +84,11 @@ export class MealsService {
   }
 
   async remove(id: number) {
+    await this.prismaService.categoriesOnMeals.deleteMany({
+      where: {
+        mealId: id,
+      },
+    });
     return await this.prismaService.meal.delete({
       where: {
         id: id,

@@ -98,8 +98,8 @@ model Meal {
   price       String
   description String
   type        String?             @default("") // general OR specific
-  categories  CategoriesOnMeals[]
   images      MealImage[]
+  categories  CategoriesOnMeals[]
 
   @@map("meals")
 }

@@ -36,14 +36,14 @@ export class MealsController {
   }
 
   @UseGuards(ManagerAdminGuard)
-  @Get()
+  @Get(':id')
   findOne(@Param('id') id: string) {
     return this.mealsService.findOne(+id);
   }
 
   @UseGuards(ManagerAdminGuard)
-  @Delete()
-  remove(@Param(':id') id: string) {
+  @Delete(':id')
+  remove(@Param('id') id: string) {
     return this.mealsService.remove(+id);
   }
 

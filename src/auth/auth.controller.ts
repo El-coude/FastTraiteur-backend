@@ -10,7 +10,12 @@ import {
 
 import { Public, GetCurrentUserId, GetCurrentUser } from '../common/decorators';
 import { AuthService } from './auth.service';
-import { AdminAuthDto, ClientAuthDto, DeliveryManAuthDto } from './dto';
+import {
+  AdminAuthDto,
+  ClientAuthDto,
+  DeliveryManAuthDto,
+  ManagerAuthDto,
+} from './dto';
 
 @Controller('auth')
 export class AuthController {
@@ -39,7 +44,11 @@ export class AuthController {
     const deliveryman = await this.authService.deliveryManSignIn(dto);
     res.json({ deliveryman });
   }
-
+  @Post('manager/signin')
+  async managerSignIn(@Body() dto: ManagerAuthDto, @Res() res) {
+    const manager = await this.authService.managerSignIn(dto);
+    res.json({ manager });
+  }
   // hna ta3 admin ...etc
   /* @Public()
   @Post('client/signin')
