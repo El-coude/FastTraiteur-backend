@@ -28,11 +28,11 @@ export class CreateClientDto {
   @IsOptional()
   address: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   longtitud: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumber()
   latitud: number;
 

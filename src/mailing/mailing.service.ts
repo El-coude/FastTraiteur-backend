@@ -18,7 +18,7 @@ export class MailingService {
       from: '"Fast traiteur" <mr.chakerw@gmail.com>',
       to,
       subject,
-      text,
+      html: text,
     };
 
     await transporter.sendMail(mailOptions);

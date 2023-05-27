@@ -18,4 +18,8 @@ export class CreateMealDto {
   @IsOptional()
   @IsNumber({}, { each: true })
   categoryIds: number[];
+
+  @IsNotEmpty()
+  @IsNumber()
+  restaurantId: number;
 }

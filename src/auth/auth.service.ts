@@ -111,6 +111,15 @@ export class AuthService {
     // if (!manager.isConfirmed) {
     //   /* send sms */
     // }
+
+    const restaurant = await this.prisma.restaurant
+      .findUnique({
+        where: {
+          managerId: manager.id,
+        },
+      })
+      .catch((err) => console.log(err));
+
     const { hash, ...payload } = manager;
     return {
       access_token: this.jwtService.sign(payload, {
@@ -118,6 +127,7 @@ export class AuthService {
         expiresIn: '30d',
       }),
       ...payload,
+      restaurant,
     };
   }
 }

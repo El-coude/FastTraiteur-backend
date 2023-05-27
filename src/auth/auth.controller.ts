@@ -46,6 +46,7 @@ export class AuthController {
   }
   @Post('manager/signin')
   async managerSignIn(@Body() dto: ManagerAuthDto, @Res() res) {
+    console.log(dto);
     const manager = await this.authService.managerSignIn(dto);
     res.json({ manager });
   }

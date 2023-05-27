@@ -76,6 +76,7 @@ model Restaurant {
   managerId   Int?          @unique
   manager     Manager?      @relation(fields: [managerId], references: [id])
   DeliveryMen DeliveryMan[]
+  Meal        Meal[]
 }
 
 model Manager {
@@ -93,13 +94,15 @@ model Manager {
 }
 
 model Meal {
-  id          Int                 @id @default(autoincrement())
-  name        String
-  price       String
-  description String
-  type        String?             @default("") // general OR specific
-  images      MealImage[]
-  categories  CategoriesOnMeals[]
+  id           Int                 @id @default(autoincrement())
+  name         String
+  price        String
+  description  String
+  type         String?             @default("") // general OR specific
+  images       MealImage[]
+  categories   CategoriesOnMeals[]
+  restaurantId Int                 @default(2)
+  restaurant   Restaurant          @relation(fields: [restaurantId], references: [id])
 
   @@map("meals")
 }

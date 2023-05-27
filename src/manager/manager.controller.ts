@@ -47,4 +47,13 @@ export class ManagerController {
   remove(@Param('id') id: string) {
     return this.managerService.remove(+id);
   }
+
+  @Post('set-password/:token')
+  changePassword(
+    @Param('token') token: string,
+    @Body() dto: { password: string },
+  ) {
+    console.log(token);
+    return this.managerService.changePassword(token, dto.password);
+  }
 }

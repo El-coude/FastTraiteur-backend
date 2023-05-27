@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
-import { CreateMealImageDto } from './dto/create-image.dto';
 import { saveImage } from '../utils/aws';
 
 @Injectable()
@@ -20,6 +19,7 @@ export class MealsService {
           name: createMealDto.name,
           price: createMealDto.price,
           description: createMealDto.description,
+          restaurantId: createMealDto.restaurantId,
         },
       });
 
