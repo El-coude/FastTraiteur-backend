@@ -96,7 +96,7 @@ model Manager {
 model Meal {
   id           Int                 @id @default(autoincrement())
   name         String
-  price        String
+  price        Float
   description  String
   type         String?             @default("") // general OR specific
   images       MealImage[]

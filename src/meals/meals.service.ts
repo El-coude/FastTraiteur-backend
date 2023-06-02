@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import * as turf from '@turf/turf'
+import { Meal } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
@@ -16,7 +18,7 @@ export class MealsService {
     try {
       const meal = await this.prismaService.meal.create({
         data: {
-          name: createMealDto.name,
+          name: createMealDto.name?.toLowerCase(),
           price: createMealDto.price,
           description: createMealDto.description,
           restaurantId: createMealDto.restaurantId,
@@ -108,4 +110,59 @@ export class MealsService {
 
     return meal;
   }
+
+  async filterMeals(distanceRange: number, minPrice: string, maxPrice:string, name: string, userId: string, categoryId: string) {
+    try {
+      const user = await this.prismaService.client.findUnique({
+        where: {
+          id: parseInt(userId)
+        }
+      })
+
+      const userPosition = turf.point([user?.longtitud as number, user?.latitud as number])
+
+
+      const restaurants = await this.prismaService.restaurant.findMany();
+      let response: Meal[] = []
+
+      for(let i = 0; i < restaurants?.length; i++) {
+        const restaurantPosition = turf.point([restaurants[i]?.longtitud as number, restaurants[i]?.latitud as number])
+        if (turf.distance(userPosition, restaurantPosition) <= distanceRange) {
+            let meals = await this.prismaService.meal.findMany({
+              where: {
+                name: {
+                  contains: name.toLowerCase()
+                }, 
+                price: {
+                  gte: parseFloat(minPrice), 
+                  lte: parseFloat(maxPrice)
+                }, 
+                restaurantId: restaurants[i]?.id, 
+                categories: categoryId !== 'all' ? {
+                  some: {
+                    categoryId: parseInt(categoryId)
+                  }
+                } : {}
+
+              }, 
+              include: {
+                restaurant: true, 
+                categories: true
+              }
+              
+            })
+            response.push(...meals)
+          
+    
+        }
+      }
+
+      return response
+    }catch(error) {
+      console.log("Error while filtering meals: ", error); 
+      throw error
+    }
+  }
+
+  
 }

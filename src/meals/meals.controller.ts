@@ -8,6 +8,7 @@ import {
   Body,
   Res,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { MealsService } from './meals.service';
 import { CreateMealDto } from './dto/create-meal.dto';
@@ -22,11 +23,16 @@ export class MealsController {
     private configService: ConfigService,
   ) {}
 
-  //@UseGuards(ManagerAdminGuard)
+  @UseGuards(ManagerAdminGuard)
   @Post('create')
   async create(@Body() createMealDto: CreateMealDto, @Res() res) {
     const meal = await this.mealsService.create(createMealDto);
     res.json(meal);
+  }
+
+  @Get('filter')
+  filter(@Query('distanceRange') distanceRange: number, @Query('minPrice') minPrice: string, @Query('maxPrice') maxPrice: string, @Query('name') name: string, @Query('userId') userId: string, @Query('categoryId') categoryId: string) {
+    return this.mealsService.filterMeals(distanceRange, minPrice, maxPrice, name, userId, categoryId)
   }
 
   //@UseGuards(ManagerAdminGuard)
@@ -52,4 +58,7 @@ export class MealsController {
   update(@Param('id') id: string, @Body() updateMealDto: UpdateMealDto) {
     return this.mealsService.update(+id, updateMealDto);
   }
+
+  
+  
 }
