@@ -6,19 +6,19 @@ const loadMeals = async () => {
     {
       name: 'pizza',
       description: 'pizza',
-      price: '100',
+      price: 40.2,
       restaurantId: 1,
     },
     {
       name: 'tacos',
       description: 'tacos',
-      price: '40',
+      price: 40.1,
       restaurantId: 1,
     },
     {
       name: 'sandwitch',
       description: 'sandwitch',
-      price: '60',
+      price: 60.8,
       restaurantId: 3,
     },
   ];
