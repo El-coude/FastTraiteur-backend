@@ -128,7 +128,6 @@ export class MealsService {
       for(let i = 0; i < restaurants?.length; i++) {
         const restaurantPosition = turf.point([restaurants[i]?.longtitud as number, restaurants[i]?.latitud as number])
         if (turf.distance(userPosition, restaurantPosition) <= distanceRange) {
-          if (categoryId === "all") {
             let meals = await this.prismaService.meal.findMany({
               where: {
                 name: {
@@ -153,7 +152,7 @@ export class MealsService {
               
             })
             response.push(...meals)
-          } 
+          
     
         }
       }
