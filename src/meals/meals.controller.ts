@@ -31,8 +31,8 @@ export class MealsController {
   }
 
   @Get('filter')
-  filter(@Query('distanceRange') distanceRange: number, @Query('minPrice') minPrice: string, @Query('maxPrice') maxPrice: string, @Query('name') name: string, @Query('userId') userId: string) {
-    return this.mealsService.filterMeals(distanceRange, minPrice, maxPrice, name, userId)
+  filter(@Query('distanceRange') distanceRange: number, @Query('minPrice') minPrice: string, @Query('maxPrice') maxPrice: string, @Query('name') name: string, @Query('userId') userId: string, @Query('categoryId') categoryId: string) {
+    return this.mealsService.filterMeals(distanceRange, minPrice, maxPrice, name, userId, categoryId)
   }
 
   //@UseGuards(ManagerAdminGuard)

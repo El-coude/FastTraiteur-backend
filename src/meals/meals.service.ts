@@ -111,7 +111,7 @@ export class MealsService {
     return meal;
   }
 
-  async filterMeals(distanceRange: number, minPrice: string, maxPrice:string, name: string, userId: string) {
+  async filterMeals(distanceRange: number, minPrice: string, maxPrice:string, name: string, userId: string, categoryId: string) {
     try {
       const user = await this.prismaService.client.findUnique({
         where: {
@@ -128,23 +128,32 @@ export class MealsService {
       for(let i = 0; i < restaurants?.length; i++) {
         const restaurantPosition = turf.point([restaurants[i]?.longtitud as number, restaurants[i]?.latitud as number])
         if (turf.distance(userPosition, restaurantPosition) <= distanceRange) {
-          let meals = await this.prismaService.meal.findMany({
-            where: {
-              name: {
-                contains: name.toLowerCase()
+          if (categoryId === "all") {
+            let meals = await this.prismaService.meal.findMany({
+              where: {
+                name: {
+                  contains: name.toLowerCase()
+                }, 
+                price: {
+                  gte: parseFloat(minPrice), 
+                  lte: parseFloat(maxPrice)
+                }, 
+                restaurantId: restaurants[i]?.id, 
+                categories: categoryId !== 'all' ? {
+                  some: {
+                    categoryId: parseInt(categoryId)
+                  }
+                } : {}
+
               }, 
-              price: {
-                gte: parseFloat(minPrice), 
-                lte: parseFloat(maxPrice)
-              }, 
-              restaurantId: restaurants[i]?.id
-            }, 
-            include: {
-              restaurant: true
-            }
-            
-          })
-          response.push(...meals)
+              include: {
+                restaurant: true, 
+                categories: true
+              }
+              
+            })
+            response.push(...meals)
+          } 
     
         }
       }
