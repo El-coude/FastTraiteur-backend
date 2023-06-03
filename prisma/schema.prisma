@@ -48,6 +48,7 @@ model Client {
   hash        String
   role        String   @default("client")
 
+  orders Order[]
   @@map("clients")
 }
 
@@ -132,4 +133,39 @@ model CategoriesOnMeals {
   categoryId Int
 
   @@id([mealId, categoryId])
+}
+
+model OrderItem {
+  id Int @id @default(autoincrement())
+  quantity Int 
+  mealId Int
+  order Order @relation(fields: [orderId], references: [id])
+  orderId Int
+
+  @@map("orderitems")
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  price Float 
+  createDate DateTime?
+  note String? 
+  state ORDERSTATE @default(PENDING) 
+  longitude Float 
+  latitud Float  
+  address String 
+  scheduledAt String?
+
+  client Client @relation(fields: [clientId], references: [id])
+  clientId Int @default(1)
+
+  ordersItems OrderItem[]
+
+  @@map("orders")
+}
+
+enum ORDERSTATE {
+  DELIVERED 
+  PENDING 
+  FINISHED
 }

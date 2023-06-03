@@ -11,6 +11,8 @@ import { MailingModule } from './mailing/mailing.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { MealsModule } from './meals/meals.module';
 import { CategoryModule } from './category/category.module';
+import { OrdersController } from './orders/orders.controller';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -26,6 +28,7 @@ import { CategoryModule } from './category/category.module';
     RestaurantModule,
     MealsModule,
     CategoryModule,
+    OrdersModule,
   ],
   /* providers: [
     {

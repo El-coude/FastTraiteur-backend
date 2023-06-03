@@ -23,7 +23,7 @@ export class MealsController {
     private configService: ConfigService,
   ) {}
 
-  @UseGuards(ManagerAdminGuard)
+  //@UseGuards(ManagerAdminGuard)
   @Post('create')
   async create(@Body() createMealDto: CreateMealDto, @Res() res) {
     const meal = await this.mealsService.create(createMealDto);
@@ -31,11 +31,25 @@ export class MealsController {
   }
 
   @Get('filter')
-  filter(@Query('distanceRange') distanceRange: number, @Query('minPrice') minPrice: string, @Query('maxPrice') maxPrice: string, @Query('name') name: string, @Query('userId') userId: string, @Query('categoryId') categoryId: string) {
-    return this.mealsService.filterMeals(distanceRange, minPrice, maxPrice, name, userId, categoryId)
+  filter(
+    @Query('distanceRange') distanceRange: number,
+    @Query('minPrice') minPrice: string,
+    @Query('maxPrice') maxPrice: string,
+    @Query('name') name: string,
+    @Query('userId') userId: string,
+    @Query('categoryId') categoryId: string,
+  ) {
+    return this.mealsService.filterMeals(
+      distanceRange,
+      minPrice,
+      maxPrice,
+      name,
+      userId,
+      categoryId,
+    );
   }
 
-  //@UseGuards(ManagerAdminGuard)
+  @UseGuards(ManagerAdminGuard)
   @Get()
   findAll() {
     return this.mealsService.findAll();
@@ -58,7 +72,4 @@ export class MealsController {
   update(@Param('id') id: string, @Body() updateMealDto: UpdateMealDto) {
     return this.mealsService.update(+id, updateMealDto);
   }
-
-  
-  
 }

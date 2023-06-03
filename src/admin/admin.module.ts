@@ -5,7 +5,7 @@ import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 
 @Module({
-  imports: [JwtModule.register({}), PrismaService],
+  imports: [JwtModule.register({})],
   controllers: [AdminController],
   providers: [AdminService],
 })
