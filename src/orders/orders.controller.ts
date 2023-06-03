@@ -20,15 +20,8 @@ export class OrdersController {
   constructor(private orderService: OrdersService) {}
 
   @Post('create')
-  async create(
-    @Body() createOrderDto: CreateOrderDto,
-    @Body() createOrderItemDto: CreateOrderItemDto,
-    @Res() res,
-  ) {
-    const order = await this.orderService.createOrder(
-      createOrderDto,
-      createOrderItemDto,
-    );
+  async create(@Body() createOrderDto: CreateOrderDto, @Res() res) {
+    const order = await this.orderService.createOrder(createOrderDto);
 
     res.json(order);
   }

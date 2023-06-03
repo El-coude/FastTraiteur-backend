@@ -1,5 +1,5 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
-
+import { CreateOrderItemDto } from './create-order-item.dto';
 export class CreateOrderDto {
   @IsNumber()
   price: number;
@@ -16,4 +16,7 @@ export class CreateOrderDto {
   @IsNotEmpty()
   @IsString()
   address: string;
+
+  @IsNotEmpty()
+  orderItems: CreateOrderItemDto[];
 }

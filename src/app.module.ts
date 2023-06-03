@@ -11,9 +11,9 @@ import { MailingModule } from './mailing/mailing.module';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { MealsModule } from './meals/meals.module';
 import { CategoryModule } from './category/category.module';
-import { OrdersController } from './orders/orders.controller';
 import { OrdersModule } from './orders/orders.module';
-
+import { OrderGateway } from './orders/order.gateway';
+import { OrdersService } from './orders/orders.service';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -30,11 +30,6 @@ import { OrdersModule } from './orders/orders.module';
     CategoryModule,
     OrdersModule,
   ],
-  /* providers: [
-    {
-      provide: APP_GUARD,
-      useClass: AtGuard,
-    },
-  ], */
+  providers: [OrdersService, OrderGateway],
 })
 export class AppModule {}

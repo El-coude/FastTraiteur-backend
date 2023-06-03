@@ -5,15 +5,16 @@ import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStateDto } from './dto/update-order.dto';
 import { ORDERSTATE } from '@prisma/client';
-import { MessageGateway } from './order.gateway';
+import { OrderGateway } from './order.gateway';
 @Injectable()
 export class OrdersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private orderGateway: OrderGateway,
+  ) {}
 
-  async createOrder(
-    createOrderDto: CreateOrderDto,
-    createOrderItemDto: CreateOrderItemDto,
-  ) {
+  async createOrder(createOrderDto: CreateOrderDto) {
+    console.log('createOrderDto: ', createOrderDto);
     try {
       const order = await this.prisma.order.create({
         data: {
@@ -25,14 +26,17 @@ export class OrdersService {
         },
       });
 
-      const orderItem = await this.prisma.orderItem.create({
-        data: {
-          quantity: createOrderItemDto?.quantity,
-          mealId: createOrderItemDto?.mealId,
-          orderId: order?.id,
-        },
-      });
-
+      for (let i = 0; i < createOrderDto?.orderItems?.length; i++) {
+        console.log(createOrderDto?.orderItems[i].quantity);
+        const orderItem = await this.prisma.orderItem.create({
+          data: {
+            quantity: createOrderDto?.orderItems[i].quantity,
+            mealId: createOrderDto?.orderItems[i].mealId,
+            orderId: order?.id,
+          },
+        });
+      }
+      this.orderGateway.notifyOrderCreation();
       return order;
     } catch (error) {
       console.log('Error while creating order: ', error);
