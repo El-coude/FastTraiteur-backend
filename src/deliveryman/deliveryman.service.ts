@@ -5,6 +5,7 @@ import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
 import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { hash } from 'argon2';
 
 @Injectable()
 export class DeliverymanService {
@@ -16,28 +17,17 @@ export class DeliverymanService {
   ) {}
 
   async create(createLiveryManDto: CreateDeliveryManDto) {
-    /*  const hashedPass = await hash(createLiveryManDto.password); */
-    console.log(createLiveryManDto.restaurantId);
+    const hashedPass = await hash(createLiveryManDto.password);
     try {
       const dileveryman = await this.prisma.deliveryMan.create({
         data: {
           name: createLiveryManDto.name,
           email: createLiveryManDto.email,
           phone: createLiveryManDto.phone,
-          restaurantId: createLiveryManDto.restaurantId,
+          hash: hashedPass,
+          accepted: false,
         },
       });
-      const token = this.jwtService.sign(dileveryman, {
-        secret: this.config.get('AT_SECRET'),
-        expiresIn: '1d',
-      });
-      await this.mailService.sendEmail(
-        createLiveryManDto.email,
-        'Your account has been created by FastTraiteur',
-        `Hello , FastTraiteur has added your restaurant , open <a href="http://localhost:5173/set-password?token=${encodeURIComponent(
-          token,
-        )}" >link here</a>  so you can proceed with your account`,
-      );
 
       const { hash, ...payload } = dileveryman;
       return {
@@ -61,11 +51,7 @@ export class DeliverymanService {
   }
 
   async findAll() {
-    return await this.prisma.deliveryMan.findMany({
-      include: {
-        restaurant: true,
-      },
-    });
+    return await this.prisma.deliveryMan.findMany();
   }
 
   findOne(id: number) {

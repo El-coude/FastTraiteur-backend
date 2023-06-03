@@ -83,6 +83,7 @@ export class AuthService {
 
     const passwordMatches = await argon.verify(deliveryman.hash!, dto.password);
     if (!passwordMatches) throw new ForbiddenException('Access Denied');
+    if (!deliveryman.accepted) throw new ForbiddenException('Not accepted');
 
     const { hash, ...payload } = deliveryman;
     return {

@@ -49,35 +49,33 @@ model Client {
   role        String   @default("client")
 
   orders Order[]
+
   @@map("clients")
 }
 
 model DeliveryMan {
-  id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  phone        String?    @unique
-  name         String?
-  email        String     @unique
-  hash         String?
-  restaurantId Int
-  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
-
-  role String @default("deliveryman")
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  phone     String   @unique
+  name      String?
+  email     String?  @unique
+  hash      String?
+  accepted  Boolean
+  role      String   @default("deliveryman")
 
   @@map("deliverymans")
 }
 
 model Restaurant {
-  id          Int           @id @default(autoincrement())
-  name        String
-  longtitud   Float         @default(0)
-  latitud     Float         @default(0)
-  address     String
-  managerId   Int?          @unique
-  manager     Manager?      @relation(fields: [managerId], references: [id])
-  DeliveryMen DeliveryMan[]
-  Meal        Meal[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  longtitud Float    @default(0)
+  latitud   Float    @default(0)
+  address   String
+  managerId Int?     @unique
+  manager   Manager? @relation(fields: [managerId], references: [id])
+  Meal      Meal[]
 }
 
 model Manager {
@@ -136,28 +134,28 @@ model CategoriesOnMeals {
 }
 
 model OrderItem {
-  id Int @id @default(autoincrement())
-  quantity Int 
-  mealId Int
-  order Order @relation(fields: [orderId], references: [id])
-  orderId Int
+  id       Int   @id @default(autoincrement())
+  quantity Int
+  mealId   Int
+  order    Order @relation(fields: [orderId], references: [id])
+  orderId  Int
 
   @@map("orderitems")
 }
 
 model Order {
-  id Int @id @default(autoincrement())
-  price Float 
-  createDate DateTime?
-  note String? 
-  state ORDERSTATE @default(PENDING) 
-  longitude Float 
-  latitud Float  
-  address String 
+  id          Int        @id @default(autoincrement())
+  price       Float
+  createDate  DateTime?
+  note        String?
+  state       ORDERSTATE @default(PENDING)
+  longitude   Float
+  latitud     Float
+  address     String
   scheduledAt String?
 
-  client Client @relation(fields: [clientId], references: [id])
-  clientId Int @default(1)
+  client   Client @relation(fields: [clientId], references: [id])
+  clientId Int    @default(1)
 
   ordersItems OrderItem[]
 
@@ -165,7 +163,7 @@ model Order {
 }
 
 enum ORDERSTATE {
-  DELIVERED 
-  PENDING 
+  DELIVERED
+  PENDING
   FINISHED
 }

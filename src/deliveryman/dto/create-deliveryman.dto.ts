@@ -10,11 +10,11 @@ import {
 export class CreateDeliveryManDto {
   @IsPhoneNumber()
   @IsString()
-  @IsOptional()
+  @IsNotEmpty()
   phone: string;
 
   @IsEmail()
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   email: string;
 
@@ -22,7 +22,7 @@ export class CreateDeliveryManDto {
   @IsOptional()
   name: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  restaurantId: number;
+  password: string;
 }
