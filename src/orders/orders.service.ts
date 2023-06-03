@@ -5,8 +5,7 @@ import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStateDto } from './dto/update-order.dto';
 import { ORDERSTATE } from '@prisma/client';
-import { create } from 'domain';
-
+import { MessageGateway } from './order.gateway';
 @Injectable()
 export class OrdersService {
   constructor(private prisma: PrismaService) {}
@@ -26,7 +25,6 @@ export class OrdersService {
         },
       });
 
-      console.log('ORDER ID: ', order?.id);
       const orderItem = await this.prisma.orderItem.create({
         data: {
           quantity: createOrderItemDto?.quantity,

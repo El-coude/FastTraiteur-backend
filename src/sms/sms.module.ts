@@ -7,7 +7,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Module({
   providers: [SmsService],
   controllers: [SmsController],
-  imports: [JwtModule.register({}), PrismaService],
+  imports: [JwtModule.register({})],
   exports: [SmsService],
 })
 export class SmsModule {}
