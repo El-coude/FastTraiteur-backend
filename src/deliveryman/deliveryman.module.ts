@@ -6,7 +6,7 @@ import { DeliveryManController } from './deliveryman.controller';
 import { DeliverymanService } from './deliveryman.service';
 
 @Module({
-  imports: [JwtModule.register({}), PrismaService, MailingModule],
+  imports: [JwtModule.register({}), MailingModule],
   controllers: [DeliveryManController],
   providers: [DeliverymanService],
 })

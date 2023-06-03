@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "orders" ALTER COLUMN "createDate" DROP NOT NULL,
+ALTER COLUMN "note" DROP NOT NULL,
+ALTER COLUMN "scheduledAt" DROP NOT NULL;

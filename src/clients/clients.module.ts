@@ -6,7 +6,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { SmsModule } from 'src/sms/sms.module';
 
 @Module({
-  imports: [JwtModule.register({}), PrismaService, SmsModule],
+  imports: [JwtModule.register({}), SmsModule],
   controllers: [ClientsController],
   providers: [ClientsService],
 })

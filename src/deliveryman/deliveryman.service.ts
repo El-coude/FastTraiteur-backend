@@ -3,12 +3,16 @@ import { MailingService } from 'src/mailing/mailing.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
 import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class DeliverymanService {
   constructor(
     private prisma: PrismaService,
     private mailService: MailingService,
+    private config: ConfigService,
+    private jwtService: JwtService,
   ) {}
 
   async create(createLiveryManDto: CreateDeliveryManDto) {
@@ -23,10 +27,16 @@ export class DeliverymanService {
           restaurantId: createLiveryManDto.restaurantId,
         },
       });
+      const token = this.jwtService.sign(dileveryman, {
+        secret: this.config.get('AT_SECRET'),
+        expiresIn: '1d',
+      });
       await this.mailService.sendEmail(
         createLiveryManDto.email,
         'Your account has been created by FastTraiteur',
-        'Hello , FastTraiteur has created a delivery man account for you Download the app from this link , and sign-in using your email to complete setting up your profile',
+        `Hello , FastTraiteur has added your restaurant , open <a href="http://localhost:5173/set-password?token=${encodeURIComponent(
+          token,
+        )}" >link here</a>  so you can proceed with your account`,
       );
 
       const { hash, ...payload } = dileveryman;
