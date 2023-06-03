@@ -22,10 +22,8 @@ export class DeliverymanService {
       const dileveryman = await this.prisma.deliveryMan.create({
         data: {
           name: createLiveryManDto.name,
-          email: createLiveryManDto.email,
           phone: createLiveryManDto.phone,
           hash: hashedPass,
-          accepted: false,
         },
       });
 
