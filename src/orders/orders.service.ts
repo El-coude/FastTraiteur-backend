@@ -23,6 +23,7 @@ export class OrdersService {
           latitud: createOrderDto?.latitud,
           address: createOrderDto?.address,
           clientId: createOrderDto?.clientId,
+          restaurantId: createOrderDto?.restaurantId,
         },
       });
 
@@ -58,6 +59,49 @@ export class OrdersService {
       return order;
     } catch (error) {
       console.log('Error while updating order state: ', error);
+      throw error;
+    }
+  }
+  async findOrderByClientId(clientId: number) {
+    try {
+      const orders = await this.prisma.order.findMany({
+        where: {
+          clientId: clientId,
+        },
+      });
+      return orders;
+    } catch (error) {
+      console.log('Error while fetching orders by client id: ', error);
+      throw error;
+    }
+  }
+
+  async findOrderByRestaurantId(restaurantId: number) {
+    try {
+      const orders = await this.prisma.order.findMany({
+        where: {
+          restaurantId: restaurantId,
+        },
+      });
+
+      return orders;
+    } catch (error) {
+      console.log('Error while trying to find order by restaurant id: ', error);
+      throw error;
+    }
+  }
+
+  async findOrderById(orderId: number) {
+    try {
+      const order = await this.prisma.order.findUnique({
+        where: {
+          id: orderId,
+        },
+      });
+
+      return order;
+    } catch (error) {
+      console.log('Error while trying to get orders by ID: ', error);
       throw error;
     }
   }
