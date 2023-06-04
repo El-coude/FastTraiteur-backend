@@ -7,6 +7,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Module({
   controllers: [RestaurantController],
   providers: [RestaurantService],
-  imports: [JwtModule.register({}), ConfigService],
+  imports: [JwtModule.register({})],
 })
 export class RestaurantModule {}

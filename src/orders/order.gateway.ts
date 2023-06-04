@@ -13,7 +13,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
 import { Order } from '@prisma/client';
-@WebSocketGateway({ cors: { origin: '*' } })
+@WebSocketGateway(3026)
 export class OrderGateway
   implements OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit
 {
@@ -27,19 +27,23 @@ export class OrderGateway
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client Disconnected: ${client.id}`);
+
+    for (let i = 0; i < this.wsClients.length; i++) {
+      if (this.wsClients[i] == client) {
+        this.wsClients.splice(i, 1); 
+        break;
+      }
+    }
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Client connected: ${client?.id}`);
-    client.send('newOrder', { data: 'test' });
+    console.log("new client connected");
+    this.wsClients.push(client);
   }
 
-  notifyOrderCreation() {
-    console.log('hmmmm');
-
+  handleOrderCreation(order:any) {
     for (let client of this.wsClients) {
-      client.send('newOrder', 'data');
+      client.send(JSON.stringify(order));
     }
   }
 }

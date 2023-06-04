@@ -37,7 +37,7 @@ export class OrdersService {
           },
         });
       }
-      this.orderGateway.notifyOrderCreation();
+      this.orderGateway.handleOrderCreation(order);
       return order;
     } catch (error) {
       console.log('Error while creating order: ', error);

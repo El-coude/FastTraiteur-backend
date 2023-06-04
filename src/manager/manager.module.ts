@@ -9,6 +9,6 @@ import { ManagerService } from './manager.service';
 @Module({
   controllers: [ManagerController],
   providers: [ManagerService, MailingService],
-  imports: [MailingService, JwtModule.register({}), ConfigService],
+  imports: [JwtModule.register({})],
 })
 export class ManagerModule {}

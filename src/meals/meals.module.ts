@@ -7,6 +7,6 @@ import { JwtModule } from '@nestjs/jwt';
 @Module({
   controllers: [MealsController],
   providers: [MealsService],
-  imports: [JwtModule.register({}), ConfigService],
+  imports: [JwtModule.register({})],
 })
 export class MealsModule {}
