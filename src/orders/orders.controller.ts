@@ -35,4 +35,28 @@ export class OrdersController {
     const order = await this.orderService.updateOrderState(updateOrderDto, +id);
     return res.json(order);
   }
+
+  @Get('clientOrders/:clientId')
+  async getOrdersByClientId(@Param('clientId') clientId: string, @Res() res) {
+    const orders = await this.orderService.findOrderByClientId(+clientId);
+    return res.json(orders);
+  }
+
+  @Get('restaurantOrders/:restaurantId')
+  async getOrdersByRestaurantId(
+    @Param('restaurantId') restaurantId: string,
+    @Res() res,
+  ) {
+    const orders = await this.orderService.findOrderByRestaurantId(
+      +restaurantId,
+    );
+
+    return res.json(orders);
+  }
+
+  @Get(':id')
+  async getOrderById(@Param('id') id: string, @Res() res) {
+    const order = await this.orderService.findOrderById(+id);
+    return res.json(order);
+  }
 }

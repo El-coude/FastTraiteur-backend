@@ -159,6 +159,7 @@ model Order {
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int    @default(1)
 
+  restaurantId Int @default(0)
   ordersItems OrderItem[]
 
   @@map("orders")

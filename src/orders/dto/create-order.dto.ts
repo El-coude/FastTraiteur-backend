@@ -13,6 +13,9 @@ export class CreateOrderDto {
   @IsNumber()
   clientId: number;
 
+  @IsNumber()
+  restaurantId: number;
+
   @IsNotEmpty()
   @IsString()
   address: string;
