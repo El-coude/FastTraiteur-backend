@@ -7,7 +7,8 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
+import { Server } from 'ws';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { CreateOrderItemDto } from './dto/create-order-item.dto';
@@ -19,6 +20,8 @@ export class OrderGateway
   constructor() {}
 
   @WebSocketServer() wss: Server;
+  wsClients: Socket[] = [];
+
   afterInit(server: Server) {
     console.log('Initialized');
   }
@@ -28,12 +31,15 @@ export class OrderGateway
   }
 
   handleConnection(client: Socket, ...args: any[]) {
-    console.log(`Client Connected: ${client.id}`);
+    console.log(`Client connected: ${client?.id}`);
+    client.send('newOrder', { data: 'test' });
   }
 
   notifyOrderCreation() {
     console.log('hmmmm');
-    this.wss.emit('newOrder');
-    //this.client.emit('newOrder');
+
+    for (let client of this.wsClients) {
+      client.send('newOrder', 'data');
+    }
   }
 }
