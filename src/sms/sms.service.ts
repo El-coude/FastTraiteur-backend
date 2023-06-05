@@ -15,6 +15,27 @@ export class SmsService {
   }
   // kayen sendSms w verify sms
   // sendSms ndiroha ki client ydir signup wla ki ydir signin w maykonch mconfirmi
+  async sendMessaage(phone: string, message: string) {
+    try {
+      return await new Promise<{ result: string }>((res, rej) => {
+        this.twilio.messages
+          .create({
+            to: phone,
+            body: message,
+            from: '+13203297078',
+          })
+          .then(() => {
+            res({ result: 'sent' });
+          })
+          .catch((err) => {
+            console.log(err);
+            rej({ error: 'Network error' });
+          });
+      });
+    } catch ({ error }) {
+      throw new ForbiddenException(error);
+    }
+  }
   async sendSms(phone: string) {
     try {
       return await new Promise<{ result: string }>((res, rej) => {

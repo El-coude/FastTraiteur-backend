@@ -9,11 +9,13 @@ import { OrderGateway } from './order.gateway';
 import { DeliveryMan } from '@prisma/client';
 import { Restaurant } from '@prisma/client';
 import * as turf from '@turf/turf';
+import { SmsService } from 'src/sms/sms.service';
 @Injectable()
 export class OrdersService {
   constructor(
     private prisma: PrismaService,
     private orderGateway: OrderGateway,
+    private smsService: SmsService,
   ) {}
 
   async createOrder(createOrderDto: CreateOrderDto) {
@@ -169,6 +171,15 @@ export class OrdersService {
           deliverymanId: minDistance['deliverymanId'],
         },
       });
+      const phone = deliverymen.find(
+        (dl) => dl.id === minDistance['deliverymanId'],
+      )?.phone;
+      if (phone)
+        this.smsService.sendMessaage(
+          phone,
+          'You have an order assigned to you , check it out',
+        );
+
       return updatedOrder;
     } catch (error) {
       console.log('Error while assigning order to delivery man: ', error);

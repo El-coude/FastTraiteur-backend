@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/mapped-types';
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,20 +7,9 @@ import {
   IsPhoneNumber,
   IsString,
 } from 'class-validator';
+import { CreateDeliveryManDto } from './create-deliveryman.dto';
 
-export class UpdateDeliveryManDto {
-  @IsPhoneNumber()
-  @IsNotEmpty()
-  @IsOptional()
-  phone: string;
-
-  @IsEmail()
-  @IsOptional()
-  email: string;
-
-  @IsOptional()
-  name: string;
-
+export class UpdateDeliveryManDto extends PartialType(CreateDeliveryManDto) {
   @IsString()
   @IsOptional()
   address: string;

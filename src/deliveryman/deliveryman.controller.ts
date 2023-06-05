@@ -39,6 +39,7 @@ export class DeliveryManController {
     @Param('id') id: string,
     @Body() updateDeliveryManDto: UpdateDeliveryManDto,
   ) {
+    console.log(updateDeliveryManDto);
     return this.deliverymanService.update(+id, updateDeliveryManDto);
   }
 

@@ -8,12 +8,13 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
 import * as AWS from '@aws-sdk/client-s3';
+import { SmsService } from 'src/sms/sms.service';
 
 @Injectable()
 export class DeliverymanService {
   constructor(
     private prisma: PrismaService,
-    private mailService: MailingService,
+    private smsSerive: SmsService,
     private config: ConfigService,
     private jwtService: JwtService,
   ) {}
@@ -82,14 +83,20 @@ export class DeliverymanService {
         }-profile-image.jpg`;
         // process data.
       }
-      const client = await this.prisma.client.update({
+      const dl = await this.prisma.deliveryMan.update({
         where: {
           id,
         },
         data: updateObj,
       });
 
-      return client;
+      if ((dto as any).accepted) {
+        await this.smsSerive.sendMessaage(
+          dl.phone,
+          'Your request to join Fasttraitaur as delivery has been accepted',
+        );
+      }
+      return dl;
     } catch (error) {
       // error handling.
       console.log(error);

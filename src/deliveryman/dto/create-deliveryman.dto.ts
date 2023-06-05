@@ -25,4 +25,7 @@ export class CreateDeliveryManDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  requestSent: boolean;
+  requestMessage: string;
 }

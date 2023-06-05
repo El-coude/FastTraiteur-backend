@@ -41,6 +41,7 @@ export class AuthController {
   }
   @Post('delivery/signin')
   async deliveryManSignIn(@Body() dto: DeliveryManAuthDto, @Res() res) {
+    console.log(dto);
     const deliveryman = await this.authService.deliveryManSignIn(dto);
     res.json({ deliveryman });
   }
