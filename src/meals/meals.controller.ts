@@ -50,9 +50,9 @@ export class MealsController {
   }
 
   @UseGuards(ManagerAdminGuard)
-  @Get()
-  findAll() {
-    return this.mealsService.findAll();
+  @Get('restaurant/:id')
+  findAll(@Param('id') id: string) {
+    return this.mealsService.findAll(+id);
   }
 
   @UseGuards(ManagerAdminGuard)

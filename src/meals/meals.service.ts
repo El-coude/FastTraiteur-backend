@@ -63,8 +63,11 @@ export class MealsService {
     }
   }
 
-  async findAll() {
+  async findAll(restaurantId: number) {
     const meals = await this.prismaService.meal.findMany({
+      where: {
+        restaurantId,
+      },
       include: {
         images: true,
         categories: {

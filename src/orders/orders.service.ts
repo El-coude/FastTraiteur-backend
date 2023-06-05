@@ -69,7 +69,13 @@ export class OrdersService {
           clientId: clientId,
         },
       });
-      return orders;
+      const res = orders.map((or) => ({
+        price: or.price,
+        id: or.id,
+        note: or.note,
+        address: or.address,
+      }));
+      return res;
     } catch (error) {
       console.log('Error while fetching orders by client id: ', error);
       throw error;
