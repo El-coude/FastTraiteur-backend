@@ -1,8 +1,10 @@
 import {
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsPhoneNumber,
+  IsString,
 } from 'class-validator';
 
 export class UpdateDeliveryManDto {
@@ -18,6 +20,19 @@ export class UpdateDeliveryManDto {
   @IsOptional()
   name: string;
 
+  @IsString()
   @IsOptional()
-  restaurantId: number;
+  address: string;
+
+  @IsOptional()
+  @IsNumber()
+  longtitud: number;
+
+  @IsOptional()
+  @IsNumber()
+  latitud: number;
+
+  @IsString()
+  @IsOptional()
+  imageUrl: string;
 }

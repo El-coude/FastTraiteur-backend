@@ -60,6 +60,10 @@ model DeliveryMan {
   phone          String   @unique
   name           String?
   email          String?  @unique
+  longtitud      Float?
+  latitud        Float?
+  address        String?
+  imageUrl       String?
   hash           String?
   accepted       Boolean  @default(false)
   requestMessage String?

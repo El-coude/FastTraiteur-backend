@@ -28,7 +28,7 @@ export class OrdersService {
       });
 
       for (let i = 0; i < createOrderDto?.orderItems?.length; i++) {
-        console.log(createOrderDto?.orderItems[i].quantity);
+        console.log(order.id);
         const orderItem = await this.prisma.orderItem.create({
           data: {
             quantity: createOrderDto?.orderItems[i].quantity,

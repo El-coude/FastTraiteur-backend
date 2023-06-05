@@ -6,6 +6,7 @@ import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
+import * as AWS from '@aws-sdk/client-s3';
 
 @Injectable()
 export class DeliverymanService {
@@ -57,15 +58,42 @@ export class DeliverymanService {
   }
 
   async update(id: number, dto: UpdateDeliveryManDto) {
-    const d = await this.prisma.deliveryMan.update({
-      where: {
-        id,
-      },
-      data: {
-        ...dto,
-      },
-    });
-    return d;
+    const updateObj = { ...dto };
+    try {
+      if (dto.imageUrl) {
+        const s3 = new AWS.S3({
+          region: 'ca-central-1',
+          credentials: {
+            accessKeyId: this.config.get('AWS_KEY')!,
+            secretAccessKey: this.config.get('AWS_SECRET')!,
+          },
+        });
+        await s3.putObject({
+          Bucket: 'fasttraiteur',
+          Key: `delivery-profile-images/user-${id}-profile-image.jpg`,
+          Body: Buffer.from(
+            dto.imageUrl.replace(/^data:image\/\w+;base64,/, ''),
+            'base64',
+          ),
+        });
+        updateObj.imageUrl = `https://fasttraiteur.s3.ca-central-1.amazonaws.com/delivery-profile-images/user-${
+          id || ''
+        }-profile-image.jpg`;
+        // process data.
+      }
+      const client = await this.prisma.client.update({
+        where: {
+          id,
+        },
+        data: updateObj,
+      });
+
+      return client;
+    } catch (error) {
+      // error handling.
+      console.log(error);
+      throw new ForbiddenException(['Network error']);
+    }
   }
 
   async remove(id: number) {
@@ -78,7 +106,6 @@ export class DeliverymanService {
   }
 
   /*   async assignOrder(orderId:number, deliverymanId) {
-
     try{
       const 
     }catch(error) {
