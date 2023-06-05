@@ -104,6 +104,7 @@ model Meal {
   categories   CategoriesOnMeals[]
   restaurantId Int                 @default(2)
   restaurant   Restaurant          @relation(fields: [restaurantId], references: [id])
+  OrderItem    OrderItem[]
 
   @@map("meals")
 }
@@ -139,6 +140,7 @@ model OrderItem {
   id       Int   @id @default(autoincrement())
   quantity Int
   mealId   Int
+  meal     Meal  @relation(fields: [mealId], references: [id])
   order    Order @relation(fields: [orderId], references: [id])
   orderId  Int
 
@@ -159,8 +161,8 @@ model Order {
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int    @default(1)
 
-  restaurantId Int @default(0)
-  ordersItems OrderItem[]
+  restaurantId Int         @default(0)
+  ordersItems  OrderItem[]
 
   @@map("orders")
 }

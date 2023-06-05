@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as turf from '@turf/turf';
-import { Meal } from '@prisma/client';
+import { Meal, Restaurant } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
@@ -135,7 +135,11 @@ export class MealsService {
       ]);
 
       const restaurants = await this.prismaService.restaurant.findMany();
-      let response: Meal[] = [];
+      let response: {
+        restaurant: Restaurant;
+        meals: Meal[];
+      }[] = [];
+
       for (let i = 0; i < restaurants?.length; i++) {
         const restaurantPosition = turf.point([
           restaurants[i]?.longtitud as number,
@@ -167,7 +171,10 @@ export class MealsService {
               images: true,
             },
           });
-          response.push(...meals);
+          response.push({
+            restaurant: restaurants[i],
+            meals,
+          });
         }
       }
 

@@ -50,7 +50,7 @@ export class OrdersController {
     const orders = await this.orderService.findOrderByRestaurantId(
       +restaurantId,
     );
-
+    console.log(orders);
     return res.json(orders);
   }
 

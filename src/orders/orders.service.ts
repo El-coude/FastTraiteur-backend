@@ -88,6 +88,18 @@ export class OrdersService {
         where: {
           restaurantId: restaurantId,
         },
+        include: {
+          client: true,
+          ordersItems: {
+            include: {
+              meal: {
+                include: {
+                  images: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       return orders;
