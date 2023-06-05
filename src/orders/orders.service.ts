@@ -173,6 +173,7 @@ export class OrdersService {
         },
         data: {
           deliverymanId: minDistance['deliverymanId'],
+          state: 'DELIVERY',
         },
       });
       return updatedOrder;
