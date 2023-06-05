@@ -182,4 +182,31 @@ export class OrdersService {
       throw error;
     }
   }
+
+  async getOrdersByDeliveryMan(id: number) {
+    try {
+      const orders = await this.prisma.order.findMany({
+        where: {
+          deliverymanId: id,
+        },
+        include: {
+          client: true,
+          ordersItems: {
+            include: {
+              meal: {
+                include: {
+                  images: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return orders;
+    } catch (error) {
+      console.log('Error while getting orders by delivery man: ', error);
+      throw error;
+    }
+  }
 }

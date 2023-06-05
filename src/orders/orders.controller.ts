@@ -59,6 +59,11 @@ export class OrdersController {
     return res.json(orders);
   }
 
+  @Get('deliverymanOrders/:id')
+  async getOrdersByDeliveryMan(@Param('id') id: string, @Res() res) {
+    const orders = await this.orderService.getOrdersByDeliveryMan(+id);
+    return res.json(orders);
+  }
   @Get(':id')
   async getOrderById(@Param('id') id: string, @Res() res) {
     const order = await this.orderService.findOrderById(+id);
