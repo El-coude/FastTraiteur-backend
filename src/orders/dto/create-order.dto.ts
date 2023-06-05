@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { CreateOrderItemDto } from './create-order-item.dto';
 export class CreateOrderDto {
   @IsNumber()
@@ -22,4 +22,6 @@ export class CreateOrderDto {
 
   @IsNotEmpty()
   orderItems: CreateOrderItemDto[];
+
+  
 }

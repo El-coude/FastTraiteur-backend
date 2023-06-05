@@ -66,6 +66,8 @@ model DeliveryMan {
   requestSent    Boolean  @default(false)
   role           String   @default("deliveryman")
 
+  orders Order[]
+
   @@map("deliverymans")
 }
 
@@ -161,6 +163,9 @@ model Order {
   client   Client @relation(fields: [clientId], references: [id])
   clientId Int    @default(1)
 
+  deliveryman   DeliveryMan? @relation(fields: [deliverymanId], references: [id])
+  deliverymanId Int?
+
   restaurantId Int         @default(0)
   ordersItems  OrderItem[]
 
@@ -168,7 +173,9 @@ model Order {
 }
 
 enum ORDERSTATE {
-  DELIVERED
   PENDING
-  FINISHED
+  COOKING
+  DELIVERY
+  DONE
+  CANCELED
 }

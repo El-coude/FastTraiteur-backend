@@ -39,6 +39,7 @@ export class OrderGateway
   handleConnection(client: Socket, ...args: any[]) {
     console.log('new client connected');
     this.wsClients.push(client);
+    
   }
 
   handleOrderCreation(order: any) {
