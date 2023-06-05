@@ -59,4 +59,10 @@ export class OrdersController {
     const order = await this.orderService.findOrderById(+id);
     return res.json(order);
   }
+
+  @Patch('assign-order')
+  async assignOrder(@Body() orderId: number, @Res() res) {
+    const order = await this.orderService.assignOrder(orderId);
+    return res.json(order);
+  }
 }

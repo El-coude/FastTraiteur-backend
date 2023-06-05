@@ -11,7 +11,7 @@ import {
 import { DeliverymanService } from './deliveryman.service';
 import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
 import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
-
+import { UpdatePositionDto } from './dto/update-position.dto';
 @Controller('deliverymen')
 export class DeliveryManController {
   constructor(private readonly deliverymanService: DeliverymanService) {}
@@ -45,5 +45,20 @@ export class DeliveryManController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.deliverymanService.remove(+id);
+  }
+
+  @Post('update-position/:id')
+  async updatePosition(
+    @Body() updatePostion: UpdatePositionDto,
+    @Param('id') id: string,
+    @Res() res,
+  ) {
+    console.log(updatePostion);
+    const deliveryman = await this.deliverymanService.updatePosition(
+      updatePostion,
+      +id,
+    );
+
+    return res.json(deliveryman);
   }
 }

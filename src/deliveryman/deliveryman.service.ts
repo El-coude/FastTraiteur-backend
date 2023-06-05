@@ -3,6 +3,7 @@ import { MailingService } from 'src/mailing/mailing.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateDeliveryManDto } from './dto/create-deliveryman.dto';
 import { UpdateDeliveryManDto } from './dto/update-deliveryman.dto';
+import { UpdatePositionDto } from './dto/update-position.dto';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { hash } from 'argon2';
@@ -105,12 +106,22 @@ export class DeliverymanService {
     return `This action removes a #${id} delivery man`;
   }
 
-  /*   async assignOrder(orderId:number, deliverymanId) {
-    try{
-      const 
-    }catch(error) {
-      console.log("Error while assigning order to delivery man: ", error); 
+  async updatePosition(updatePositionDto: UpdatePositionDto, id: number) {
+    try {
+      const deliveryman = await this.prisma.deliveryMan.update({
+        where: {
+          id,
+        },
+        data: {
+          longtitud: updatePositionDto?.longtitud,
+          latitud: updatePositionDto?.latitud,
+        },
+      });
+
+      return deliveryman;
+    } catch (error) {
+      console.log('Error while updating delivery man position: ', error);
       throw error;
     }
-  } */
+  }
 }
