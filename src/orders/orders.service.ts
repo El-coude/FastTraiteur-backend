@@ -95,6 +95,7 @@ export class OrdersService {
         },
         include: {
           client: true,
+          deliveryman: true,
           ordersItems: {
             include: {
               meal: {
@@ -176,6 +177,9 @@ export class OrdersService {
         data: {
           deliverymanId: minDistance['deliverymanId'],
           state: 'DELIVERY',
+        },
+        include: {
+          deliveryman: true,
         },
       });
       const phone = deliverymen.find(

@@ -31,12 +31,6 @@ export class OrdersController {
     return res.json(order);
   }
 
-  @Patch('assign-order/:id')
-  async assignOrder(@Param('id') id: number, @Res() res) {
-    const order = await this.orderService.assignOrder(+id);
-    return res.json(order);
-  }
-
   @Patch(':id')
   async updateOrderState(
     @Param('id') id: string,
