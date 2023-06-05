@@ -175,6 +175,7 @@ export class OrdersService {
         },
         data: {
           deliverymanId: minDistance['deliverymanId'],
+          state: 'DELIVERY',
         },
       });
       const phone = deliverymen.find(
