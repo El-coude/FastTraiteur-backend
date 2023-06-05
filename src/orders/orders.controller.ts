@@ -25,6 +25,11 @@ export class OrdersController {
 
     res.json(order);
   }
+  @Patch('assign-order/:id')
+  async assignOrder(@Param('id') id: string, @Res() res) {
+    const order = await this.orderService.assignOrder(+id);
+    return res.json(order);
+  }
 
   @Patch(':id')
   async updateOrderState(
@@ -57,12 +62,6 @@ export class OrdersController {
   @Get(':id')
   async getOrderById(@Param('id') id: string, @Res() res) {
     const order = await this.orderService.findOrderById(+id);
-    return res.json(order);
-  }
-
-  @Patch('assign-order')
-  async assignOrder(@Body() orderId: number, @Res() res) {
-    const order = await this.orderService.assignOrder(orderId);
     return res.json(order);
   }
 }

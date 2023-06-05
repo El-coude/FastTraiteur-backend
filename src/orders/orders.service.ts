@@ -136,7 +136,7 @@ export class OrdersService {
           id: orderId,
         },
       });
-      const restaurant = await this.prisma.restaurant.findUnique({
+      const restaurant = await this.prisma.restaurant.findFirst({
         where: {
           id: order?.restaurantId,
         },
@@ -147,7 +147,10 @@ export class OrdersService {
         restaurant?.latitud as number,
       ]);
 
-      let minDistance = { distance: 0, deliverymanId: 0 };
+      let minDistance = {
+        distance: Number.POSITIVE_INFINITY,
+        deliverymanId: 0,
+      };
       for (let i = 0; i < deliverymen?.length; i++) {
         const deliverymanPosition = turf.point([
           deliverymen[i]?.longtitud as number,
@@ -155,15 +158,18 @@ export class OrdersService {
         ]);
 
         const distance = turf.distance(restaurantPosition, deliverymanPosition);
+        console.log('distance: ', distance);
         if (distance < minDistance['distance']) {
           minDistance['distance'] = distance;
           minDistance['deliverymanId'] = deliverymen[i]?.id;
+          console.log('delivery man id: ', deliverymen[i]?.id);
         }
       }
 
+      console.log('MIN DISTANCE AFTER LOOP: ', minDistance);
       const updatedOrder = await this.prisma.order.update({
         where: {
-          id: order?.id,
+          id: orderId,
         },
         data: {
           deliverymanId: minDistance['deliverymanId'],
