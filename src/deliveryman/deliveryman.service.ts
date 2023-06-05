@@ -76,4 +76,14 @@ export class DeliverymanService {
     });
     return `This action removes a #${id} delivery man`;
   }
+
+  async assignOrder(orderId:number, deliverymanId) {
+
+    try{
+      const 
+    }catch(error) {
+      console.log("Error while assigning order to delivery man: ", error); 
+      throw error;
+    }
+  }
 }
