@@ -190,6 +190,14 @@ export class OrdersService {
           phone,
           'You have an order assigned to you , check it out',
         );
+      const updatedDm = await this.prisma.deliveryMan.update({
+        where: {
+          id: minDistance['deliverymanId'],
+        },
+        data: {
+          available: false,
+        },
+      });
 
       return updatedOrder;
     } catch (error) {
@@ -198,6 +206,75 @@ export class OrdersService {
     }
   }
 
+  async refuseOrder(orderId: number) {
+    try {
+      const order = await this.prisma.order.findUnique({
+        where: {
+          id: orderId,
+        },
+      });
+      const deliverymen = await this.prisma.deliveryMan.findMany({
+        where: {
+          NOT: {
+            id: order?.deliverymanId as number,
+          },
+        },
+      });
+
+      const restaurant = await this.prisma.restaurant.findFirst({
+        where: {
+          id: order?.restaurantId,
+        },
+      });
+
+      const restaurantPosition = turf.point([
+        restaurant?.longtitud as number,
+        restaurant?.latitud as number,
+      ]);
+
+      let minDistance = {
+        distance: Number.POSITIVE_INFINITY,
+        deliverymanId: 0,
+      };
+      for (let i = 0; i < deliverymen?.length; i++) {
+        const deliverymanPosition = turf.point([
+          deliverymen[i]?.longtitud as number,
+          deliverymen[i]?.latitud as number,
+        ]);
+
+        const distance = turf.distance(restaurantPosition, deliverymanPosition);
+        console.log('distance: ', distance);
+        if (distance < minDistance['distance']) {
+          minDistance['distance'] = distance;
+          minDistance['deliverymanId'] = deliverymen[i]?.id;
+          console.log('delivery man id: ', deliverymen[i]?.id);
+        }
+      }
+
+      console.log('MIN DISTANCE AFTER LOOP: ', minDistance);
+      const updatedOrder = await this.prisma.order.update({
+        where: {
+          id: orderId,
+        },
+        data: {
+          deliverymanId: minDistance['deliverymanId'],
+          state: 'DELIVERY',
+        },
+      });
+      const updatedDm = await this.prisma.deliveryMan.update({
+        where: {
+          id: minDistance['deliverymanId'],
+        },
+        data: {
+          available: false,
+        },
+      });
+      return updatedOrder;
+    } catch (error) {
+      console.log('Error while refusing order: ', error);
+      throw error;
+    }
+  }
   async getOrdersByDeliveryMan(id: number) {
     try {
       const orders = await this.prisma.order.findMany({
