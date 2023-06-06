@@ -59,6 +59,12 @@ export class OrdersController {
     return res.json(orders);
   }
 
+  @Get('refuseOrder/:id')
+  async refuseOrder(@Param('id') id: string, @Res() res) {
+    const order = await this.orderService.refuseOrder(+id);
+    return res.json(order);
+  }
+
   @Get('deliverymanOrders/:id')
   async getOrdersByDeliveryMan(@Param('id') id: string, @Res() res) {
     const orders = await this.orderService.getOrdersByDeliveryMan(+id);

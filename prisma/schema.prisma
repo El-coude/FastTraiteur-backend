@@ -64,12 +64,13 @@ model DeliveryMan {
   latitud        Float?
   address        String?
   imageUrl       String?
-  hash           String?
+  hash           String?  
+  available     Boolean @default(true)
+
   accepted       Boolean  @default(false)
   requestMessage String?
   requestSent    Boolean  @default(false)
   role           String   @default("deliveryman")
-
   orders Order[]
 
   @@map("deliverymans")
